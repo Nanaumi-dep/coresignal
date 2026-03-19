@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const categories = [
+  { slug: "gadget", name: "ガジェット", color: "#e94560" },
+  { slug: "creditcard", name: "クレジットカード", color: "#2196F3" },
+  { slug: "desk-setup", name: "デスクセットアップ", color: "#4ECDC4" },
+  { slug: "dev-env", name: "開発環境", color: "#7B2FBE" },
+];
+
+const allPosts = await getCollection("posts");
+const recentPosts = allPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 6);
+---
+
+<BaseLayout
+  title="CoreSignal"
+  description="ガジェット×クレカの情報メディア。最新ガジェットレビュー、お得なクレジットカード活用術、デスク環境の構築ノウハウをお届けします。"
+>
+  {/* ヒーローセクション */}
+  <section class="text-center py-16">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">
+      <span class="text-primary">Core</span><span class="text-text">Signal</span>
+    </h1>
+    <p class="text-text-muted text-lg max-w-2xl mx-auto">
+      ガジェット×クレカの情報メディア。<br />
+      最新ガジェットレビュー、お得なクレジットカード活用術、デスク環境の構築ノウハウをお届けします。
+    </p>
+  </section>
+
+  {/* カテゴリセクション */}
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold mb-6">カテゴリ</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {categories.map((cat) => (
+        <a
+          href={`/blog/?category=${cat.slug}`}
+          class="bg-bg-card border border-border rounded-lg p-4 text-center hover:bg-bg-hover transition-colors"
+        >
+          <span class="text-lg font-semibold" style={`color: ${cat.color}`}>
+            {cat.name}
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* 最新記事セクション */}
+  <section>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold">最新記事</h2>
+      <a href="/blog/" class="text-primary text-sm hover:underline">すべて見る →</a>
+    </div>
+    {recentPosts.length > 0 ? (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {recentPosts.map((post) => {
+          const cat = categories.find((c) => c.slug === post.data.category);
+          return (
+            <a href={`/blog/${post.id}/`} class="bg-bg-card border border-border rounded-lg overflow-hidden hover:bg-bg-hover transition-colors group">
+              <img
+                src={post.data.eyecatch}
+                alt={`${post.data.title}のアイキャッチ画像`}
+                class="w-full h-40 object-cover"
+                loading="lazy"
+              />
+              <div class="p-4">
+                {cat && (
+                  <span class="text-xs font-medium px-2 py-1 rounded" style={`color: ${cat.color}; background: ${cat.color}20`}>
+                    {cat.name}
+                  </span>
+                )}
+                <h3 class="text-base font-semibold mt-2 group-hover:text-primary transition-colors">
+                  {post.data.title}
+                </h3>
+                <time class="text-text-muted text-xs mt-1 block">{post.data.date}</time>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <p class="text-text-muted">まだ記事がありません。</p>
+    )}
+  </section>
+</BaseLayout>

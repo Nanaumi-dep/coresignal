@@ -1,0 +1,158 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: "website" | "article";
+  date?: string;
+  dateModified?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = "/images/default-eyecatch.png",
+  type = "website",
+  date,
+  dateModified,
+  noindex = false,
+} = Astro.props;
+
+const siteTitle = "CoreSignal";
+const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+
+// カテゴリ定義
+const categories: Record<string, { name: string; color: string }> = {
+  gadget: { name: "ガジェット", color: "#e94560" },
+  creditcard: { name: "クレジットカード", color: "#2196F3" },
+  "desk-setup": { name: "デスクセットアップ", color: "#4ECDC4" },
+  "dev-env": { name: "開発環境", color: "#7B2FBE" },
+};
+
+// JSON-LD構造化データ
+// XSS対策: JSON-LD内の < を \u003c にエスケープ
+function safeJsonLd(obj: unknown): string {
+  return JSON.stringify(obj).replace(/</g, "\\u003c");
+}
+
+// WebSiteスキーマ（トップページ用）
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteTitle,
+  url: Astro.site?.toString(),
+  inLanguage: "ja",
+};
+
+// BlogPostingスキーマ（記事ページ用）
+const blogPostingSchema = date
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title,
+      description: description,
+      image: imageURL.toString(),
+      datePublished: date,
+      ...(dateModified && { dateModified }),
+      inLanguage: "ja",
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonicalURL.toString(),
+      },
+    }
+  : null;
+
+// BreadcrumbListスキーマ（全ページ）
+const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbItems = [
+  { "@type": "ListItem", position: 1, name: "ホーム", item: Astro.site?.toString() },
+  ...pathSegments.map((segment, index) => ({
+    "@type": "ListItem",
+    position: index + 2,
+    name: categories[segment]?.name || decodeURIComponent(segment),
+    item: new URL(pathSegments.slice(0, index + 1).join("/") + "/", Astro.site!).toString(),
+  })),
+];
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbItems,
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow" />
+    )}
+    <meta name="generator" content={Astro.generator} />
+
+    {/* OGP */}
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content={siteTitle} />
+
+    {/* Twitter Cards */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+
+    {/* JSON-LD 構造化データ */}
+    {type === "website" && (
+      <script type="application/ld+json" set:html={safeJsonLd(websiteSchema)} />
+    )}
+    {blogPostingSchema && (
+      <script type="application/ld+json" set:html={safeJsonLd(blogPostingSchema)} />
+    )}
+    <script type="application/ld+json" set:html={safeJsonLd(breadcrumbSchema)} />
+  </head>
+  <body class="bg-bg text-text min-h-screen">
+    {/* セキュリティヘッダーはCloudFront Functionsで設定予定:
+        X-Frame-Options: DENY
+        X-Content-Type-Options: nosniff
+        Referrer-Policy: strict-origin-when-cross-origin
+        Strict-Transport-Security: max-age=31536000; includeSubDomains */}
+
+    {/* HTTPSリダイレクトはCloudFrontで設定済み */}
+
+    <header class="border-b border-border">
+      <nav class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-primary hover:opacity-80 transition-opacity">
+          CoreSignal
+        </a>
+        <ul class="flex gap-6 text-sm">
+          <li><a href="/blog/" class="text-text-muted hover:text-text transition-colors">記事一覧</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border mt-16">
+      <div class="max-w-5xl mx-auto px-4 py-8 text-center text-text-muted text-sm">
+        <p>&copy; {new Date().getFullYear()} CoreSignal. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -141,6 +141,10 @@ const gridPosts = sortedPosts.slice(1, 9);
           <span class="relative text-base font-bold" style={`color: ${cat.color};`}>
             {cat.name}
           </span>
+          <div
+            class="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+            style={`background: ${cat.color};`}
+          />
         </a>
       ))}
     </div>

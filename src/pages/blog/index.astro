@@ -1,13 +1,22 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
 import { getCollection } from "astro:content";
 
 const categories = [
+  { slug: "all", name: "すべて", color: "#e94560" },
   { slug: "gadget", name: "ガジェット", color: "#e94560" },
   { slug: "creditcard", name: "クレジットカード", color: "#2196F3" },
   { slug: "desk-setup", name: "デスクセットアップ", color: "#4ECDC4" },
   { slug: "dev-env", name: "開発環境", color: "#7B2FBE" },
 ];
+
+const categoryColors: Record<string, string> = {
+  gadget: "#e94560",
+  creditcard: "#2196F3",
+  "desk-setup": "#4ECDC4",
+  "dev-env": "#7B2FBE",
+};
 
 const allPosts = await getCollection("posts");
 const posts = allPosts.sort(
@@ -16,37 +25,85 @@ const posts = allPosts.sort(
 ---
 
 <BaseLayout title="記事一覧" description="CoreSignalの記事一覧ページ。ガジェット、クレジットカード、デスクセットアップ、開発環境に関する記事をお届けします。">
-  <h1 class="text-3xl font-bold mb-8">記事一覧</h1>
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6" style="color: var(--color-text-primary);">記事一覧</h1>
 
-  {posts.length > 0 ? (
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {posts.map((post) => {
-        const cat = categories.find((c) => c.slug === post.data.category);
-        return (
-          <a href={`/blog/${post.id}/`} class="bg-bg-card border border-border rounded-lg overflow-hidden hover:bg-bg-hover transition-colors group">
-            <img
-              src={post.data.eyecatch}
-              alt={`${post.data.title}のアイキャッチ画像`}
-              class="w-full h-40 object-cover"
-              loading="lazy"
-            />
-            <div class="p-4">
-              {cat && (
-                <span class="text-xs font-medium px-2 py-1 rounded" style={`color: ${cat.color}; background: ${cat.color}20`}>
-                  {cat.name}
-                </span>
-              )}
-              <h3 class="text-base font-semibold mt-2 group-hover:text-primary transition-colors">
-                {post.data.title}
-              </h3>
-              <p class="text-text-muted text-sm mt-1 line-clamp-2">{post.data.description}</p>
-              <time class="text-text-muted text-xs mt-2 block">{post.data.date}</time>
-            </div>
-          </a>
-        );
-      })}
+    {/* カテゴリフィルタータブ */}
+    <div class="flex flex-wrap gap-2 mb-8" id="category-tabs">
+      {categories.map((cat) => (
+        <button
+          class="category-tab px-4 py-2 text-sm font-medium rounded-lg border transition-all duration-200"
+          data-category={cat.slug}
+          style={`border-color: var(--color-border); color: var(--color-text-secondary); background-color: var(--color-surface);`}
+        >
+          {cat.name}
+        </button>
+      ))}
     </div>
-  ) : (
-    <p class="text-text-muted">まだ記事がありません。</p>
-  )}
+
+    {/* 記事グリッド */}
+    {posts.length > 0 ? (
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="articles-grid">
+        {posts.map((post) => {
+          const catName = categories.find((c) => c.slug === post.data.category)?.name;
+          const catColor = categoryColors[post.data.category];
+          return (
+            <div data-post-category={post.data.category}>
+              <ArticleCard
+                href={`/blog/${post.id}/`}
+                title={post.data.title}
+                date={post.data.date}
+                eyecatch={post.data.eyecatch}
+                categoryName={catName}
+                categoryColor={catColor}
+              />
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <p style="color: var(--color-text-muted);">まだ記事がありません。</p>
+    )}
+  </div>
 </BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".category-tab");
+  const posts = document.querySelectorAll<HTMLElement>("[data-post-category]");
+
+  function setActive(slug: string) {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.category === slug;
+      tab.style.backgroundColor = isActive ? "#e94560" : "";
+      tab.style.color = isActive ? "#ffffff" : "";
+      tab.style.borderColor = isActive ? "#e94560" : "";
+    });
+
+    posts.forEach((post) => {
+      if (slug === "all" || post.dataset.postCategory === slug) {
+        post.style.display = "";
+      } else {
+        post.style.display = "none";
+      }
+    });
+  }
+
+  // URLパラメータからカテゴリを取得
+  const params = new URLSearchParams(window.location.search);
+  const initialCategory = params.get("category") || "all";
+  setActive(initialCategory);
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const slug = tab.dataset.category || "all";
+      setActive(slug);
+      const url = new URL(window.location.href);
+      if (slug === "all") {
+        url.searchParams.delete("category");
+      } else {
+        url.searchParams.set("category", slug);
+      }
+      window.history.replaceState({}, "", url.toString());
+    });
+  });
+</script>

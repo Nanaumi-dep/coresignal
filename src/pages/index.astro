@@ -20,7 +20,7 @@ const featuredCat = featuredPost
   ? categories.find((c) => c.slug === featuredPost.data.category)
   : null;
 
-const gridPosts = sortedPosts.slice(1, 7);
+const gridPosts = sortedPosts.slice(1, 9);
 ---
 
 <BaseLayout
@@ -32,16 +32,16 @@ const gridPosts = sortedPosts.slice(1, 7);
     <section class="max-w-6xl mx-auto px-4 pt-8 pb-12">
       <a
         href={`/blog/${featuredPost.id}/`}
-        class="group block relative rounded-2xl overflow-hidden bg-bg-card border border-border hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+        class="group block relative rounded-2xl overflow-hidden border transition-all duration-300"
+        style="background-color: var(--color-surface); border-color: var(--color-border);"
       >
         <div class="md:flex">
           <div class="md:w-3/5 relative overflow-hidden">
             <img
               src={featuredPost.data.eyecatch}
               alt={`${featuredPost.data.title}のアイキャッチ画像`}
-              class="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+              class="w-full h-64 md:h-96 object-cover group-hover:scale-105 transition-transform duration-500"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-bg-card/60 to-transparent md:hidden" />
           </div>
           <div class="md:w-2/5 p-6 md:p-8 flex flex-col justify-center">
             <div class="flex items-center gap-3 mb-4">
@@ -53,19 +53,30 @@ const gridPosts = sortedPosts.slice(1, 7);
                   {featuredCat.name}
                 </span>
               )}
-              <span class="text-xs font-bold text-bg px-3 py-1 rounded-md bg-primary">
+              <span
+                class="text-xs font-bold px-3 py-1 rounded-md text-white"
+                style="background-color: #e94560;"
+              >
                 FEATURED
               </span>
             </div>
-            <h2 class="text-xl md:text-2xl font-bold leading-tight group-hover:text-primary transition-colors">
+            <h2
+              class="text-xl md:text-2xl font-bold leading-tight transition-colors"
+              style="color: var(--color-text-primary);"
+            >
               {featuredPost.data.title}
             </h2>
-            <p class="text-text-muted text-sm mt-3 line-clamp-2">
+            <p class="text-sm mt-3 line-clamp-2" style="color: var(--color-text-secondary);">
               {featuredPost.data.description}
             </p>
-            <time class="text-text-muted text-xs mt-4 block">
-              {featuredPost.data.date}
-            </time>
+            <div class="flex items-center justify-between mt-4">
+              <time class="text-xs" style="color: var(--color-text-muted);">
+                {featuredPost.data.date}
+              </time>
+              <span class="text-sm font-medium" style="color: #e94560;">
+                続きを読む &rarr;
+              </span>
+            </div>
           </div>
         </div>
       </a>
@@ -73,9 +84,9 @@ const gridPosts = sortedPosts.slice(1, 7);
   ) : (
     <section class="max-w-6xl mx-auto px-4 pt-16 pb-12 text-center">
       <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4">
-        <span class="text-primary">Core</span><span class="text-text">Signal</span>
+        <span style="color: #e94560;">Core</span><span style="color: var(--color-text-primary);">Signal</span>
       </h1>
-      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+      <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-text-secondary);">
         ガジェット×クレカの情報メディア。<br />
         最新ガジェットレビュー、お得なクレジットカード活用術、デスク環境の構築ノウハウをお届けします。
       </p>
@@ -86,10 +97,14 @@ const gridPosts = sortedPosts.slice(1, 7);
   {gridPosts.length > 0 && (
     <section class="max-w-6xl mx-auto px-4 pb-16">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-lg font-bold">
-          <span class="text-primary mr-1">|</span>最新記事
+        <h2 class="text-lg font-bold" style="color: var(--color-text-primary);">
+          <span class="mr-1" style="color: #e94560;">|</span>最新記事
         </h2>
-        <a href="/blog/" class="text-text-muted text-sm hover:text-primary transition-colors">
+        <a
+          href="/blog/"
+          class="text-sm transition-colors"
+          style="color: var(--color-text-muted);"
+        >
           すべて見る &rarr;
         </a>
       </div>
@@ -113,29 +128,19 @@ const gridPosts = sortedPosts.slice(1, 7);
 
   {/* カテゴリセクション */}
   <section class="max-w-6xl mx-auto px-4 pb-20">
-    <h2 class="text-lg font-bold mb-6">
-      <span class="text-primary mr-1">|</span>カテゴリ
+    <h2 class="text-lg font-bold mb-6" style="color: var(--color-text-primary);">
+      <span class="mr-1" style="color: #e94560;">|</span>カテゴリ
     </h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       {categories.map((cat) => (
         <a
           href={`/blog/?category=${cat.slug}`}
-          class="group relative rounded-xl bg-bg-card border border-border p-5 text-center hover:shadow-lg transition-all duration-300 overflow-hidden"
+          class="group relative rounded-xl border p-5 text-center transition-all duration-300 overflow-hidden"
+          style={`background-color: var(--color-surface); border-color: var(--color-border);`}
         >
-          <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={`background: linear-gradient(135deg, ${cat.color}08, ${cat.color}15);`}
-          />
-          <span
-            class="relative text-base font-bold transition-colors"
-            style={`color: ${cat.color}`}
-          >
+          <span class="relative text-base font-bold" style={`color: ${cat.color};`}>
             {cat.name}
           </span>
-          <div
-            class="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-            style={`background: ${cat.color};`}
-          />
         </a>
       ))}
     </div>

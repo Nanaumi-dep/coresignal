@@ -11,12 +11,16 @@ interface Props {
 const { href, title, date, eyecatch, categoryName, categoryColor } = Astro.props;
 ---
 
-<a href={href} class="group block bg-bg-card rounded-xl overflow-hidden border border-border hover:border-border hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
-  <div class="relative overflow-hidden">
+<a
+  href={href}
+  class="group block rounded-xl overflow-hidden border transition-all duration-200"
+  style={`background-color: var(--color-surface); border-color: var(--color-border);`}
+>
+  <div class="relative overflow-hidden" style="aspect-ratio: 16/9;">
     <img
       src={eyecatch}
       alt={`${title}のアイキャッチ画像`}
-      class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
       loading="lazy"
     />
     {categoryName && categoryColor && (
@@ -29,9 +33,29 @@ const { href, title, date, eyecatch, categoryName, categoryColor } = Astro.props
     )}
   </div>
   <div class="p-4">
-    <h3 class="text-sm font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+    <h3
+      class="text-sm font-semibold leading-snug transition-colors line-clamp-2"
+      style="color: var(--color-text-primary);"
+    >
       {title}
     </h3>
-    <time class="text-text-muted text-xs mt-2 block">{date}</time>
+    <time class="text-xs mt-2 block" style="color: var(--color-text-muted);">{date}</time>
   </div>
 </a>
+
+<style>
+  a:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) a:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  [data-theme="dark"] a:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+</style>

@@ -7,25 +7,26 @@ const categories = [
 ];
 ---
 
-<footer class="border-t border-border mt-20 bg-bg-surface">
+<footer class="border-t mt-20" style="background-color: var(--color-bg-secondary); border-color: var(--color-border);">
   <div class="max-w-6xl mx-auto px-4 py-12">
     <div class="flex flex-col md:flex-row justify-between gap-8">
       <div>
-        <a href="/" class="text-xl font-black tracking-tight">
-          <span class="text-primary">Core</span><span class="text-text">Signal</span>
+        <a href="/" class="text-lg font-black tracking-tight" style="color: var(--color-text-primary);">
+          <span style="color: #e94560;">Core</span>Signal
         </a>
-        <p class="text-text-muted text-sm mt-2 max-w-xs">
+        <p class="text-sm mt-2 max-w-xs" style="color: var(--color-text-muted);">
           エンジニアが運営するガジェット×クレカのメディア
         </p>
       </div>
       <div>
-        <h3 class="text-sm font-semibold text-text mb-3">カテゴリ</h3>
+        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">カテゴリ</h3>
         <ul class="space-y-2 text-sm">
           {categories.map((cat) => (
             <li>
               <a
                 href={`/blog/?category=${cat.slug}`}
-                class="text-text-muted hover:text-text transition-colors"
+                class="transition-colors"
+                style="color: var(--color-text-muted);"
               >
                 {cat.name}
               </a>
@@ -34,7 +35,7 @@ const categories = [
         </ul>
       </div>
     </div>
-    <div class="border-t border-border mt-8 pt-6 text-center text-text-muted text-xs">
+    <div class="border-t mt-8 pt-6 text-center text-xs" style="border-color: var(--color-border); color: var(--color-text-muted);">
       <p>&copy; {new Date().getFullYear()} CoreSignal. All rights reserved.</p>
     </div>
   </div>

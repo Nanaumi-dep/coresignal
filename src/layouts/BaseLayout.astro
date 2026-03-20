@@ -28,7 +28,7 @@ const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 
-// カテゴリ定義
+// カテゴリ定義（パンくず用）
 const categories: Record<string, { name: string; color: string }> = {
   gadget: { name: "ガジェット", color: "#e94560" },
   creditcard: { name: "クレジットカード", color: "#2196F3" },
@@ -36,13 +36,11 @@ const categories: Record<string, { name: string; color: string }> = {
   "dev-env": { name: "開発環境", color: "#7B2FBE" },
 };
 
-// JSON-LD構造化データ
-// XSS対策: JSON-LD内の < を \u003c にエスケープ
+// JSON-LD構造化データ（XSS対策: < → \u003c）
 function safeJsonLd(obj: unknown): string {
   return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
 
-// WebSiteスキーマ（トップページ用）
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -51,13 +49,12 @@ const websiteSchema = {
   inLanguage: "ja",
 };
 
-// BlogPostingスキーマ（記事ページ用）
 const blogPostingSchema = date
   ? {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: title,
-      description: description,
+      description,
       image: imageURL.toString(),
       datePublished: date,
       ...(dateModified && { dateModified }),
@@ -69,7 +66,6 @@ const blogPostingSchema = date
     }
   : null;
 
-// BreadcrumbListスキーマ（全ページ）
 const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
 const breadcrumbItems = [
   { "@type": "ListItem", position: 1, name: "ホーム", item: Astro.site?.toString() },
@@ -118,7 +114,7 @@ const breadcrumbSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
 
-    {/* JSON-LD 構造化データ */}
+    {/* JSON-LD */}
     {type === "website" && (
       <script type="application/ld+json" set:html={safeJsonLd(websiteSchema)} />
     )}
@@ -126,8 +122,19 @@ const breadcrumbSchema = {
       <script type="application/ld+json" set:html={safeJsonLd(blogPostingSchema)} />
     )}
     <script type="application/ld+json" set:html={safeJsonLd(breadcrumbSchema)} />
+
+    {/* テーマ初期化（フラッシュ防止のためインライン化） */}
+    <script is:inline>
+      (function() {
+        var t;
+        try { t = localStorage.getItem("theme"); } catch(e) {}
+        if (t === "light" || t === "dark") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-bg text-text min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col" style="background-color: var(--color-bg); color: var(--color-text-primary);">
     <Header />
 
     <main class="flex-1">
@@ -135,5 +142,10 @@ const breadcrumbSchema = {
     </main>
 
     <Footer />
+
+    <script>
+      import { initTheme } from "../scripts/theme.ts";
+      initTheme();
+    </script>
   </body>
 </html>

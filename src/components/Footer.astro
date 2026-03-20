@@ -1,0 +1,41 @@
+---
+const categories = [
+  { slug: "gadget", name: "ガジェット" },
+  { slug: "creditcard", name: "クレジットカード" },
+  { slug: "desk-setup", name: "デスクセットアップ" },
+  { slug: "dev-env", name: "開発環境" },
+];
+---
+
+<footer class="border-t border-border mt-20 bg-bg-surface">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div>
+        <a href="/" class="text-xl font-black tracking-tight">
+          <span class="text-primary">Core</span><span class="text-text">Signal</span>
+        </a>
+        <p class="text-text-muted text-sm mt-2 max-w-xs">
+          エンジニアが運営するガジェット×クレカのメディア
+        </p>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-text mb-3">カテゴリ</h3>
+        <ul class="space-y-2 text-sm">
+          {categories.map((cat) => (
+            <li>
+              <a
+                href={`/blog/?category=${cat.slug}`}
+                class="text-text-muted hover:text-text transition-colors"
+              >
+                {cat.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-border mt-8 pt-6 text-center text-text-muted text-xs">
+      <p>&copy; {new Date().getFullYear()} CoreSignal. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

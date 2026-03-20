@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
 import { getCollection } from "astro:content";
 
 const categories = [
@@ -10,9 +11,16 @@ const categories = [
 ];
 
 const allPosts = await getCollection("posts");
-const recentPosts = allPosts
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 6);
+const sortedPosts = allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const featuredPost = sortedPosts[0];
+const featuredCat = featuredPost
+  ? categories.find((c) => c.slug === featuredPost.data.category)
+  : null;
+
+const gridPosts = sortedPosts.slice(1, 7);
 ---
 
 <BaseLayout
@@ -20,68 +28,116 @@ const recentPosts = allPosts
   description="ガジェット×クレカの情報メディア。最新ガジェットレビュー、お得なクレジットカード活用術、デスク環境の構築ノウハウをお届けします。"
 >
   {/* ヒーローセクション */}
-  <section class="text-center py-16">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">
-      <span class="text-primary">Core</span><span class="text-text">Signal</span>
-    </h1>
-    <p class="text-text-muted text-lg max-w-2xl mx-auto">
-      ガジェット×クレカの情報メディア。<br />
-      最新ガジェットレビュー、お得なクレジットカード活用術、デスク環境の構築ノウハウをお届けします。
-    </p>
-  </section>
+  {featuredPost ? (
+    <section class="max-w-6xl mx-auto px-4 pt-8 pb-12">
+      <a
+        href={`/blog/${featuredPost.id}/`}
+        class="group block relative rounded-2xl overflow-hidden bg-bg-card border border-border hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+      >
+        <div class="md:flex">
+          <div class="md:w-3/5 relative overflow-hidden">
+            <img
+              src={featuredPost.data.eyecatch}
+              alt={`${featuredPost.data.title}のアイキャッチ画像`}
+              class="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg-card/60 to-transparent md:hidden" />
+          </div>
+          <div class="md:w-2/5 p-6 md:p-8 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-4">
+              {featuredCat && (
+                <span
+                  class="text-xs font-bold px-3 py-1 rounded-md"
+                  style={`color: ${featuredCat.color}; background: ${featuredCat.color}18; border: 1px solid ${featuredCat.color}40;`}
+                >
+                  {featuredCat.name}
+                </span>
+              )}
+              <span class="text-xs font-bold text-bg px-3 py-1 rounded-md bg-primary">
+                FEATURED
+              </span>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold leading-tight group-hover:text-primary transition-colors">
+              {featuredPost.data.title}
+            </h2>
+            <p class="text-text-muted text-sm mt-3 line-clamp-2">
+              {featuredPost.data.description}
+            </p>
+            <time class="text-text-muted text-xs mt-4 block">
+              {featuredPost.data.date}
+            </time>
+          </div>
+        </div>
+      </a>
+    </section>
+  ) : (
+    <section class="max-w-6xl mx-auto px-4 pt-16 pb-12 text-center">
+      <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4">
+        <span class="text-primary">Core</span><span class="text-text">Signal</span>
+      </h1>
+      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+        ガジェット×クレカの情報メディア。<br />
+        最新ガジェットレビュー、お得なクレジットカード活用術、デスク環境の構築ノウハウをお届けします。
+      </p>
+    </section>
+  )}
+
+  {/* 最新記事グリッド */}
+  {gridPosts.length > 0 && (
+    <section class="max-w-6xl mx-auto px-4 pb-16">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold">
+          <span class="text-primary mr-1">|</span>最新記事
+        </h2>
+        <a href="/blog/" class="text-text-muted text-sm hover:text-primary transition-colors">
+          すべて見る &rarr;
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {gridPosts.map((post) => {
+          const cat = categories.find((c) => c.slug === post.data.category);
+          return (
+            <ArticleCard
+              href={`/blog/${post.id}/`}
+              title={post.data.title}
+              date={post.data.date}
+              eyecatch={post.data.eyecatch}
+              categoryName={cat?.name}
+              categoryColor={cat?.color}
+            />
+          );
+        })}
+      </div>
+    </section>
+  )}
 
   {/* カテゴリセクション */}
-  <section class="mb-16">
-    <h2 class="text-2xl font-bold mb-6">カテゴリ</h2>
+  <section class="max-w-6xl mx-auto px-4 pb-20">
+    <h2 class="text-lg font-bold mb-6">
+      <span class="text-primary mr-1">|</span>カテゴリ
+    </h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       {categories.map((cat) => (
         <a
           href={`/blog/?category=${cat.slug}`}
-          class="bg-bg-card border border-border rounded-lg p-4 text-center hover:bg-bg-hover transition-colors"
+          class="group relative rounded-xl bg-bg-card border border-border p-5 text-center hover:shadow-lg transition-all duration-300 overflow-hidden"
         >
-          <span class="text-lg font-semibold" style={`color: ${cat.color}`}>
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={`background: linear-gradient(135deg, ${cat.color}08, ${cat.color}15);`}
+          />
+          <span
+            class="relative text-base font-bold transition-colors"
+            style={`color: ${cat.color}`}
+          >
             {cat.name}
           </span>
+          <div
+            class="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+            style={`background: ${cat.color};`}
+          />
         </a>
       ))}
     </div>
-  </section>
-
-  {/* 最新記事セクション */}
-  <section>
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold">最新記事</h2>
-      <a href="/blog/" class="text-primary text-sm hover:underline">すべて見る →</a>
-    </div>
-    {recentPosts.length > 0 ? (
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recentPosts.map((post) => {
-          const cat = categories.find((c) => c.slug === post.data.category);
-          return (
-            <a href={`/blog/${post.id}/`} class="bg-bg-card border border-border rounded-lg overflow-hidden hover:bg-bg-hover transition-colors group">
-              <img
-                src={post.data.eyecatch}
-                alt={`${post.data.title}のアイキャッチ画像`}
-                class="w-full h-40 object-cover"
-                loading="lazy"
-              />
-              <div class="p-4">
-                {cat && (
-                  <span class="text-xs font-medium px-2 py-1 rounded" style={`color: ${cat.color}; background: ${cat.color}20`}>
-                    {cat.name}
-                  </span>
-                )}
-                <h3 class="text-base font-semibold mt-2 group-hover:text-primary transition-colors">
-                  {post.data.title}
-                </h3>
-                <time class="text-text-muted text-xs mt-1 block">{post.data.date}</time>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    ) : (
-      <p class="text-text-muted">まだ記事がありません。</p>
-    )}
   </section>
 </BaseLayout>

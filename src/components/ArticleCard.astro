@@ -1,0 +1,37 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  date: string;
+  eyecatch: string;
+  categoryName?: string;
+  categoryColor?: string;
+}
+
+const { href, title, date, eyecatch, categoryName, categoryColor } = Astro.props;
+---
+
+<a href={href} class="group block bg-bg-card rounded-xl overflow-hidden border border-border hover:border-border hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+  <div class="relative overflow-hidden">
+    <img
+      src={eyecatch}
+      alt={`${title}のアイキャッチ画像`}
+      class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+      loading="lazy"
+    />
+    {categoryName && categoryColor && (
+      <span
+        class="absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-md"
+        style={`color: ${categoryColor}; background: ${categoryColor}18; backdrop-filter: blur(8px); border: 1px solid ${categoryColor}40;`}
+      >
+        {categoryName}
+      </span>
+    )}
+  </div>
+  <div class="p-4">
+    <h3 class="text-sm font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+      {title}
+    </h3>
+    <time class="text-text-muted text-xs mt-2 block">{date}</time>
+  </div>
+</a>

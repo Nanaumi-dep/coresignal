@@ -1,0 +1,59 @@
+---
+const categories = [
+  { slug: "gadget", name: "ガジェット", color: "#e94560" },
+  { slug: "creditcard", name: "クレジットカード", color: "#2196F3" },
+  { slug: "desk-setup", name: "デスクセットアップ", color: "#4ECDC4" },
+  { slug: "dev-env", name: "開発環境", color: "#7B2FBE" },
+];
+---
+
+<header class="sticky top-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="/" class="text-2xl font-black tracking-tight hover:opacity-80 transition-opacity">
+      <span class="text-primary">Core</span><span class="text-text">Signal</span>
+    </a>
+    <ul class="hidden md:flex items-center gap-6 text-sm font-medium">
+      {categories.map((cat) => (
+        <li>
+          <a
+            href={`/blog/?category=${cat.slug}`}
+            class="text-text-muted hover:text-text transition-colors"
+          >
+            {cat.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden text-text-muted hover:text-text transition-colors"
+      aria-label="メニューを開く"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+  <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-bg-surface">
+    <ul class="px-4 py-3 space-y-3 text-sm font-medium">
+      {categories.map((cat) => (
+        <li>
+          <a
+            href={`/blog/?category=${cat.slug}`}
+            class="block text-text-muted hover:text-text transition-colors"
+          >
+            {cat.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  btn?.addEventListener("click", () => {
+    menu?.classList.toggle("hidden");
+  });
+</script>

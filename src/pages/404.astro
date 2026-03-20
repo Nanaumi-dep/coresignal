@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { CATEGORIES } from "../lib/categories";
+---
+
+<BaseLayout
+  title="ページが見つかりません"
+  description="お探しのページは見つかりませんでした。"
+  noindex={true}
+>
+  <div class="max-w-2xl mx-auto px-4 py-20 text-center">
+    <p
+      class="text-8xl md:text-9xl font-black tracking-tighter select-none"
+      style="color: #e94560;"
+    >
+      404
+    </p>
+    <h1 class="text-xl md:text-2xl font-bold mt-4" style="color: var(--color-text-primary);">
+      ページが見つかりません
+    </h1>
+    <p class="mt-3 text-sm" style="color: var(--color-text-muted);">
+      お探しのページは移動または削除された可能性があります。
+    </p>
+
+    <a
+      href="/"
+      class="inline-block mt-8 px-6 py-3 text-sm font-bold text-white rounded-lg transition-opacity hover:opacity-80"
+      style="background-color: #e94560;"
+    >
+      トップページに戻る
+    </a>
+
+    <div class="mt-14">
+      <p class="text-sm font-semibold mb-4" style="color: var(--color-text-secondary);">
+        カテゴリから探す
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        {CATEGORIES.map((cat) => (
+          <a
+            href={`/${cat.slug}/`}
+            class="px-4 py-2 text-sm font-medium rounded-lg border transition-all duration-200"
+            style={`border-color: var(--color-border); color: ${cat.color}; background-color: var(--color-surface);`}
+          >
+            {cat.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

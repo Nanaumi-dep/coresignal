@@ -2,13 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import { getCollection } from "astro:content";
-
-const categories = [
-  { slug: "gadget", name: "ガジェット", color: "#e94560" },
-  { slug: "creditcard", name: "クレジットカード", color: "#2196F3" },
-  { slug: "desk-setup", name: "デスクセットアップ", color: "#4ECDC4" },
-  { slug: "dev-env", name: "開発環境", color: "#7B2FBE" },
-];
+import { CATEGORIES, CATEGORY_MAP, getPostUrl } from "../lib/categories";
 
 const allPosts = await getCollection("posts");
 const sortedPosts = allPosts.sort(
@@ -17,7 +11,7 @@ const sortedPosts = allPosts.sort(
 
 const featuredPost = sortedPosts[0];
 const featuredCat = featuredPost
-  ? categories.find((c) => c.slug === featuredPost.data.category)
+  ? CATEGORY_MAP[featuredPost.data.category]
   : null;
 
 const gridPosts = sortedPosts.slice(1, 9);
@@ -31,7 +25,7 @@ const gridPosts = sortedPosts.slice(1, 9);
   {featuredPost ? (
     <section class="max-w-6xl mx-auto px-4 pt-8 pb-12">
       <a
-        href={`/blog/${featuredPost.id}/`}
+        href={getPostUrl(featuredPost)}
         class="group block relative rounded-2xl overflow-hidden border transition-all duration-300"
         style="background-color: var(--color-surface); border-color: var(--color-border);"
       >
@@ -100,20 +94,13 @@ const gridPosts = sortedPosts.slice(1, 9);
         <h2 class="text-lg font-bold" style="color: var(--color-text-primary);">
           <span class="mr-1" style="color: #e94560;">|</span>最新記事
         </h2>
-        <a
-          href="/blog/"
-          class="text-sm transition-colors"
-          style="color: var(--color-text-muted);"
-        >
-          すべて見る &rarr;
-        </a>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {gridPosts.map((post) => {
-          const cat = categories.find((c) => c.slug === post.data.category);
+          const cat = CATEGORY_MAP[post.data.category];
           return (
             <ArticleCard
-              href={`/blog/${post.id}/`}
+              href={getPostUrl(post)}
               title={post.data.title}
               date={post.data.date}
               eyecatch={post.data.eyecatch}
@@ -132,9 +119,9 @@ const gridPosts = sortedPosts.slice(1, 9);
       <span class="mr-1" style="color: #e94560;">|</span>カテゴリ
     </h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {categories.map((cat) => (
+      {CATEGORIES.map((cat) => (
         <a
-          href={`/blog/?category=${cat.slug}`}
+          href={`/${cat.slug}/`}
           class="group relative rounded-xl border p-5 text-center transition-all duration-300 overflow-hidden"
           style={`background-color: var(--color-surface); border-color: var(--color-border);`}
         >

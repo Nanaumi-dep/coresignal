@@ -28,13 +28,7 @@ const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 
-// カテゴリ定義（パンくず用）
-const categories: Record<string, { name: string; color: string }> = {
-  gadget: { name: "ガジェット", color: "#e94560" },
-  creditcard: { name: "クレジットカード", color: "#2196F3" },
-  "desk-setup": { name: "デスクセットアップ", color: "#4ECDC4" },
-  "dev-env": { name: "開発環境", color: "#7B2FBE" },
-};
+import { CATEGORY_MAP } from "../lib/categories";
 
 // JSON-LD構造化データ（XSS対策: < → \u003c）
 function safeJsonLd(obj: unknown): string {
@@ -55,10 +49,15 @@ const blogPostingSchema = date
       "@type": "BlogPosting",
       headline: title,
       description,
+      url: canonicalURL.toString(),
       image: imageURL.toString(),
       datePublished: date,
       ...(dateModified && { dateModified }),
       inLanguage: "ja",
+      author: {
+        "@type": "Person",
+        name: "CoreSignal",
+      },
       mainEntityOfPage: {
         "@type": "WebPage",
         "@id": canonicalURL.toString(),
@@ -72,7 +71,7 @@ const breadcrumbItems = [
   ...pathSegments.map((segment, index) => ({
     "@type": "ListItem",
     position: index + 2,
-    name: categories[segment]?.name || decodeURIComponent(segment),
+    name: CATEGORY_MAP[segment]?.name || decodeURIComponent(segment),
     item: new URL(pathSegments.slice(0, index + 1).join("/") + "/", Astro.site!).toString(),
   })),
 ];
@@ -82,12 +81,26 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: breadcrumbItems,
 };
+const ga4Id = import.meta.env.GA4_MEASUREMENT_ID;
 ---
 
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+
+    {/* Google Analytics 4 */}
+    {ga4Id && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+        <script is:inline define:vars={{ ga4Id }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', ga4Id);
+        </script>
+      </>
+    )}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />

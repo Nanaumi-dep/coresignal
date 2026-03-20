@@ -2,27 +2,31 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import { getCollection, render } from "astro:content";
-
-const categories: Record<string, { name: string; color: string }> = {
-  gadget: { name: "ガジェット", color: "#e94560" },
-  creditcard: { name: "クレジットカード", color: "#2196F3" },
-  "desk-setup": { name: "デスクセットアップ", color: "#4ECDC4" },
-  "dev-env": { name: "開発環境", color: "#7B2FBE" },
-};
+import { CATEGORIES, CATEGORY_MAP, isValidCategory, getPostUrl } from "../../lib/categories";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    const slug = post.id.includes("/") ? post.id.split("/").pop()! : post.id;
+    return {
+      params: { category: post.data.category, slug },
+      props: { post },
+    };
+  });
 }
 
+const { category, slug } = Astro.params;
 const { post } = Astro.props;
-const { Content, headings } = await render(post);
-const cat = categories[post.data.category];
+const cat = CATEGORY_MAP[post.data.category];
 
-// 目次生成（h2・h3のみ）
+// カテゴリとURLの整合性チェック
+if (!isValidCategory(category!) || category !== post.data.category) {
+  return Astro.redirect("/404");
+}
+
+const { Content, headings } = await render(post);
+
+// 目次（h2・h3のみ）
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
 // 関連記事（同カテゴリから最大3本、自分を除く）
@@ -46,12 +50,13 @@ const relatedPosts = allPosts
     <header class="mb-8">
       <div class="flex items-center gap-3 mb-4">
         {cat && (
-          <span
-            class="text-xs font-bold px-3 py-1 rounded-md"
+          <a
+            href={`/${cat.slug}/`}
+            class="text-xs font-bold px-3 py-1 rounded-md transition-opacity hover:opacity-80"
             style={`color: ${cat.color}; background: ${cat.color}18; border: 1px solid ${cat.color}40;`}
           >
             {cat.name}
-          </span>
+          </a>
         )}
       </div>
       <h1 class="text-2xl md:text-3xl font-bold leading-tight mb-4" style="color: var(--color-text-primary);">
@@ -133,10 +138,10 @@ const relatedPosts = allPosts
         </h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {relatedPosts.map((rp) => {
-            const rpCat = categories[rp.data.category];
+            const rpCat = CATEGORY_MAP[rp.data.category];
             return (
               <ArticleCard
-                href={`/blog/${rp.id}/`}
+                href={getPostUrl(rp)}
                 title={rp.data.title}
                 date={rp.data.date}
                 eyecatch={rp.data.eyecatch}

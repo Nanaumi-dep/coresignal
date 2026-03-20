@@ -1,10 +1,5 @@
 ---
-const categories = [
-  { slug: "gadget", name: "ガジェット" },
-  { slug: "creditcard", name: "クレジットカード" },
-  { slug: "desk-setup", name: "デスクセットアップ" },
-  { slug: "dev-env", name: "開発環境" },
-];
+import { CATEGORIES } from "../lib/categories";
 ---
 
 <footer class="border-t mt-20" style="background-color: var(--color-bg-secondary); border-color: var(--color-border);">
@@ -21,10 +16,10 @@ const categories = [
       <div>
         <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">カテゴリ</h3>
         <ul class="space-y-2 text-sm">
-          {categories.map((cat) => (
+          {CATEGORIES.map((cat) => (
             <li>
               <a
-                href={`/blog/?category=${cat.slug}`}
+                href={`/${cat.slug}/`}
                 class="transition-colors"
                 style="color: var(--color-text-muted);"
               >

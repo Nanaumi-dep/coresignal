@@ -1,10 +1,5 @@
 ---
-const categories = [
-  { slug: "gadget", name: "ガジェット", color: "#e94560" },
-  { slug: "creditcard", name: "クレジットカード", color: "#2196F3" },
-  { slug: "desk-setup", name: "デスクセットアップ", color: "#4ECDC4" },
-  { slug: "dev-env", name: "開発環境", color: "#7B2FBE" },
-];
+import { CATEGORIES } from "../lib/categories";
 ---
 
 <header class="sticky top-0 z-50 border-b" style="background-color: var(--color-bg); border-color: var(--color-border);">
@@ -16,10 +11,10 @@ const categories = [
 
     <!-- デスクトップナビ -->
     <ul class="hidden md:flex items-center gap-5 text-sm font-medium">
-      {categories.map((cat) => (
+      {CATEGORIES.map((cat) => (
         <li>
           <a
-            href={`/blog/?category=${cat.slug}`}
+            href={`/${cat.slug}/`}
             class="nav-link transition-colors py-2"
             style={`color: var(--color-text-secondary); --hover-color: ${cat.color};`}
           >
@@ -64,10 +59,10 @@ const categories = [
   <!-- モバイルメニュー -->
   <div id="mobile-menu" class="hidden md:hidden border-t" style="background-color: var(--color-bg-secondary); border-color: var(--color-border);">
     <ul class="px-4 py-3 space-y-1">
-      {categories.map((cat) => (
+      {CATEGORIES.map((cat) => (
         <li>
           <a
-            href={`/blog/?category=${cat.slug}`}
+            href={`/${cat.slug}/`}
             class="block py-2 px-3 rounded-lg text-sm font-medium transition-colors"
             style={`color: var(--color-text-secondary);`}
           >

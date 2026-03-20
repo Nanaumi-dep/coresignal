@@ -12,12 +12,13 @@
     "audit": "npm audit --audit-level=high"
   },
   "dependencies": {
-    "astro": "^6.0.0",
     "@astrojs/mdx": "^5.0.0",
-    "@astrojs/sitemap": "^3.7.0"
+    "@astrojs/sitemap": "^3.7.0",
+    "astro": "^6.0.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.0"
   }
 }

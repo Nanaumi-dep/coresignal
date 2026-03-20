@@ -125,6 +125,10 @@ const gridPosts = sortedPosts.slice(1, 9);
           class="group relative rounded-xl border p-5 text-center transition-all duration-300 overflow-hidden"
           style={`background-color: var(--color-surface); border-color: var(--color-border);`}
         >
+          <div
+            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={`background: linear-gradient(135deg, ${cat.color}08, ${cat.color}15);`}
+          />
           <span class="relative text-base font-bold" style={`color: ${cat.color};`}>
             {cat.name}
           </span>

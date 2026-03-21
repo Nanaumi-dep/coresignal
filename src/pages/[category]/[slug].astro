@@ -82,6 +82,16 @@ const relatedPosts = allPosts
       )}
     </header>
 
+    {/* アフィリエイト開示（冒頭） */}
+    {post.data.affiliate && (
+      <p
+        class="text-xs mb-6 px-3 py-2 rounded-md"
+        style="background-color: var(--color-bg-secondary); color: var(--color-text-muted);"
+      >
+        当記事はアフィリエイト広告を利用しています。<a href="/disclosure/" class="underline" style="color: var(--color-text-muted);">詳細</a>
+      </p>
+    )}
+
     {/* アイキャッチ */}
     <img
       src={post.data.eyecatch}

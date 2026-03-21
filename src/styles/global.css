@@ -184,7 +184,7 @@ body {
 
 .cta-amazon a {
   display: inline-block;
-  background-color: #e94560;
+  background: linear-gradient(135deg, #2196F3, #7B2FBE);
   color: #ffffff !important;
   text-decoration: none !important;
   font-weight: 600;

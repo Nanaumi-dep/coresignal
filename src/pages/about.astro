@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="CoreSignal（coresignal.jp）について。エンジニアが運営するガジェット×クレジットカードのメディアです。"
+>
+  <div class="max-w-3xl mx-auto px-4 py-16">
+    <h1
+      class="text-2xl md:text-3xl font-bold mb-12"
+      style="color: var(--color-text-primary);"
+    >
+      About
+    </h1>
+
+    <div class="prose-article space-y-10">
+      <!-- CoreSignalとは -->
+      <section>
+        <h2>CoreSignalとは</h2>
+        <p>
+          CoreSignalは、ガジェットとクレジットカードを軸にした個人メディアです。高単価デバイスの選び方、デスク環境の最適化、クレジットカードのポイント戦略など、「買い物の判断基準」を整理して発信しています。
+        </p>
+        <p>
+          スペックの羅列ではなく、何を基準に選ぶべきかという視点で記事を書いています。
+        </p>
+      </section>
+
+      <!-- 運営者 -->
+      <section>
+        <h2>運営者</h2>
+        <p>
+          ナナ。エンジニア。AWS・GitHub等のクラウドサービスを日常的に扱う技術者で、ガジェットとクレジットカードが好きです。JCBプラチナでザ・クラスのインビテーションを目指して修行中。
+        </p>
+        <p>
+          「何を買うか」よりも「どう最適化するか」にこだわるタイプで、金属素材の質感、打鍵感、所有体験そのものを重視しています。
+        </p>
+      </section>
+
+      <!-- 扱うジャンル -->
+      <section>
+        <h2>扱うジャンル</h2>
+        <ul>
+          <li>Apple製品・USB-C周辺機器・デスク環境</li>
+          <li>クレジットカード（JCB修行、ポイント戦略、新カード情報）</li>
+          <li>ガジェット×クレカのクロスオーバー（高額決済のポイント戦略など）</li>
+        </ul>
+      </section>
+
+      <!-- メディア展開 -->
+      <section>
+        <h2>メディア展開</h2>
+        <ul>
+          <li>
+            <strong>coresignal.jp</strong>（当サイト）— 比較・検討記事を中心としたメディア
+          </li>
+          <li>
+            <a href="https://note.com/coresignal" target="_blank" rel="noopener noreferrer">note</a> — 所有体験やレビューを個人視点で発信
+          </li>
+          <li>
+            YouTube（準備中）— 開封・レビュー動画
+          </li>
+        </ul>
+      </section>
+
+      <!-- お問い合わせ -->
+      <section>
+        <h2>お問い合わせ</h2>
+        <p>
+          記事に関するご質問、掲載に関するお問い合わせ、企業様からのご連絡は以下のフォームよりお願いいたします。
+        </p>
+        <div class="mt-6">
+          <a
+            href="#GOOGLE_FORM_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block font-semibold text-sm px-6 py-3 rounded-lg transition-opacity hover:opacity-85"
+            style="background: linear-gradient(135deg, #2196F3, #7B2FBE); color: #ffffff; text-decoration: none;"
+          >
+            お問い合わせフォームを開く →
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

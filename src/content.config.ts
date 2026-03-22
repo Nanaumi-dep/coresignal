@@ -10,7 +10,7 @@ const posts = defineCollection({
     dateModified: z.string().optional(),
     category: z.string(),
     tags: z.array(z.string()).default([]),
-    eyecatch: z.string().default("/images/default-eyecatch.png"),
+    eyecatch: z.string().default("/images/site/about-banner.png"),
     affiliate: z.boolean().default(false),
   }),
 });

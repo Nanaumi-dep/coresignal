@@ -1,16 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="csGradient" x1="0%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%" stop-color="#2196F3"/>
-      <stop offset="100%" stop-color="#7B2FBE"/>
-    </linearGradient>
-    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg" x1="0%" y1="50%" x2="100%" y2="50%">
       <stop offset="0%" stop-color="#2196F3"/>
       <stop offset="100%" stop-color="#7B2FBE"/>
     </linearGradient>
   </defs>
-  <rect x="16" y="16" width="480" height="480" rx="96" ry="96" fill="#0a0a1a" stroke="url(#borderGradient)" stroke-width="24"/>
-  <text x="256" y="256" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="240" text-anchor="middle" dominant-baseline="central">
-    <tspan fill="url(#csGradient)">C</tspan><tspan fill="#FFFFFF">S</tspan>
-  </text>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <text x="256" y="256" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="240" text-anchor="middle" dominant-baseline="central" fill="#FFFFFF">CS</text>
 </svg>

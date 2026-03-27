@@ -1,0 +1,23 @@
+{
+  "name": "CoreSignal",
+  "short_name": "CoreSignal",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "lang": "ja",
+  "dir": "ltr",
+  "description": "ガジェット×クレジットカードの最新情報メディア",
+  "theme_color": "#0a0a1a",
+  "background_color": "#0a0a1a",
+  "display": "standalone"
+}

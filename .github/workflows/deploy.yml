@@ -34,6 +34,11 @@ jobs:
       # Astro静的サイトのビルド
       - name: Build Astro site
         run: npm run build
+        # ビルドに必要な環境変数があればここで指定
+        env: 
+          AMAZON_CLIENT_ID: ${{ secrets.AMAZON_CLIENT_ID }}
+          AMAZON_CLIENT_SECRET: ${{ secrets.AMAZON_CLIENT_SECRET }}
+          AMAZON_PARTNER_TAG: ${{ secrets.AMAZON_PARTNER_TAG }}
 
       # OIDC認証によるAWSクレデンシャル取得
       - name: Configure AWS credentials

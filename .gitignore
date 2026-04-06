@@ -6,3 +6,4 @@ dist/
 .DS_Store
 .astro/
 src/content/drafts/
+CoreSignal-credentials.csv

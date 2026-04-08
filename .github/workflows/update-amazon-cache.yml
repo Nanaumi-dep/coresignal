@@ -1,38 +1,39 @@
 name: Update Amazon Cache
 
 on:
-schedule:
-- cron: '0 18 * * 0'  # 毎週月曜 3:00 UTC（日本時間12:00）
-workflow_dispatch:       # 手動実行も可能
+  schedule:
+    - cron: '0 18 * * 0'  # 毎週月曜 3:00 UTC（日本時間12:00）
+
+  workflow_dispatch:       # 手動実行も可能
 
 permissions:
-contents: write
+  contents: write
 
 jobs:
-update-cache:
-runs-on: ubuntu-latest
-steps:
-    - name: Checkout
-    uses: actions/checkout@v6
+  update-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-    - name: Setup Node.js
-    uses: actions/setup-node@v6
-    with:
-        node-version: lts/*
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
 
-    - name: Update Amazon Cache
-    env:
-        AMAZON_CLIENT_ID: ${{ secrets.AMAZON_CLIENT_ID }}
-        AMAZON_CLIENT_SECRET: ${{ secrets.AMAZON_CLIENT_SECRET }}
-        AMAZON_PARTNER_TAG: ${{ secrets.AMAZON_PARTNER_TAG }}
-    run: node scripts/update-amazon-cache.mjs
+      - name: Update Amazon Cache
+        env:
+          AMAZON_CLIENT_ID: ${{ secrets.AMAZON_CLIENT_ID }}
+          AMAZON_CLIENT_SECRET: ${{ secrets.AMAZON_CLIENT_SECRET }}
+          AMAZON_PARTNER_TAG: ${{ secrets.AMAZON_PARTNER_TAG }}
+        run: node scripts/update-amazon-cache.mjs
 
-    - name: Commit and push if changed
-    run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git diff --quiet src/data/amazon-cache.json || {
-        git add src/data/amazon-cache.json
-        git commit -m "chore: update amazon product cache"
-        git push
-        }
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet src/data/amazon-cache.json || {
+            git add src/data/amazon-cache.json
+            git commit -m "chore: update amazon product cache"
+            git push
+          }

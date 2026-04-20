@@ -1,0 +1,97 @@
+---
+title: "UGREEN MaxidokのTB5ドック3機種が出揃った｜用途別の最適解を整理した"
+description: "UGREENのThunderbolt 5対応ドッキングステーション「Revodok Maxidok」3機種を比較。17-in-1（約4.6万円）・10-in-1（約2.8万円）・Mac mini専用（約4.9万円）のスペック差と用途別の選び方を整理した。"
+date: "2026-04-19"
+category: "gadget"
+tags: ["UGREEN", "Thunderbolt 5", "ドッキングステーション", "デスク環境", "Mac mini"]
+eyecatch: "/images/posts/ugreen-maxidok-tb5-dock-comparison.webp"
+affiliate: true
+---
+
+import AmazonCard from '../../../components/AmazonCard.astro';
+
+## Thunderbolt 5ドックの選択肢が一気に増えた
+
+UGREENが「Revodok Maxidok」シリーズとしてThunderbolt 5対応ドッキングステーション3機種を国内投入している。フル装備の17-in-1、薄型の10-in-1、そしてMac mini M4専用モデル。価格帯は約2.8万〜4.9万円で、CalDigit TS5 Plusの約7万円と比べると明らかに攻めた値付けである。全機種アルミ合金筐体で、どれもIntel製TB5コントローラを搭載。120Gbpsの帯域と8K@60Hz映像出力に対応する。問題は「3つのうちどれを選ぶか」だ。
+
+## 3機種のスペックを整理する
+
+| 項目 | 17-in-1（プレミアム） | 10-in-1（スタンダード） | Mac mini専用 |
+|---|---|---|---|
+| 価格 | 46,513円 | 27,923円（セール時） | 48,990円 |
+| ACアダプタ | 240W | 140W GaN | — |
+| TB5アップストリーム | ×1 | ×1 | — |
+| TB5ダウンストリーム | ×2 | ×2 | ×2 |
+| DisplayPort 2.1 | ×1（8K@60Hz） | ×1（8K@60Hz） | ×1（8K@60Hz） |
+| USB-A 3.2 Gen 2 | ×3 | ×3 | ×3 |
+| USB-C 3.2 Gen 2 | ×3 | — | — |
+| カードリーダー | SD 4.0 / microSD 4.0 | SD 3.0 / microSD 3.0 | SD 4.0 / microSD 4.0 |
+| 有線LAN | 2.5GbE | 1GbE | — |
+| 3.5mm音声端子 | ×3 | — | — |
+| M.2 NVMe SSD | あり（PCIe 4.0 x4 / 最大8TB） | なし | あり（PCIe 4.0 x4） |
+| ホスト充電 | 最大140W | 最大110W | — |
+| サイズ | — | 薄型設計 | 127×127mm（Mac mini同一） |
+| 冷却システム | — | — | 内蔵 |
+
+<AmazonCard asin="B0GH1JMX6C" fallbackTitle="UGREEN Maxidok 17-in-1 Thunderbolt 5をAmazonで見る" />
+
+<AmazonCard asin="B0FRLVWT2D" fallbackTitle="UGREEN Maxidok 10-in-1 Thunderbolt 5をAmazonで見る" />
+
+## 17-in-1は「全部入り」が欲しい人のためのドック
+
+17ポートという数字だけでも異常だが、中身を見るとさらに驚く。TB5ダウンストリームが2基あるということは、TB5対応のストレージやeGPUをデイジーチェーンで追加接続できるということだ。USB-AとUSB-Cが各3基ずつ計6基あるので、キーボード・マウス・Webカメラ・外付けSSD・オーディオインターフェース……と接続しても余裕がある。
+
+2.5GbEの有線LANも地味に効く。NASへのファイル転送やリモート開発環境へのSSH接続では、1GbEと2.5GbEの差は体感できるレベルである。自宅に2.5GbE対応のルーターやスイッチを導入しているなら、ドック側もそれに合わせたい。
+
+そして最大の差別化ポイントが、底面のM.2 NVMe SSDスロットだ。PCIe 4.0 x4接続で最大8TBまで対応する。外付けSSDケースを別途買う必要がなくなり、デスク上の配線が1本減る。TimeMachineのバックアップ先として使うもよし、開発用のローカルストレージとして使うもよし。ドックの中にストレージを隠せるというのは、配線を極限まで減らしたいデスク環境派にとって大きい。
+
+240W ACアダプタはドック本体としては大きめだが、ホスト充電140Wを確保しつつ17ポート全体に安定給電するためにはこのクラスが必要になる。MacBook Pro 16インチの急速充電にも対応できる余裕がある。
+
+## 10-in-1は「TB5が欲しいだけ」なら最もコスパが高い
+
+10-in-1スタンダードモデルの最大の魅力は価格である。セール価格で27,923円。通常価格の41,990円でも、CalDigit TS5 Plus（約7万円）の6割以下だ。Thunderbolt 5の120Gbps帯域と8K@60Hz映像出力という基本性能は17-in-1と変わらない。
+
+削られているのは、M.2 SSDスロット、USB-C 3.2ポート3基、2.5GbE（1GbEに変更）、SD 4.0（3.0に変更）、3.5mm音声端子。裏を返せば、「外付けSSDは別で持っている」「有線LANは1Gbpsで十分」「SDカードは使わない」という人にとっては、削られた部分に痛みがない。
+
+140W GaNアダプタが付属し、ホスト充電は110W。MacBook Air M5やMacBook Pro 14インチ（M5 Pro）なら問題ない出力だ。MacBook Pro 16インチを常用する場合は、140Wの17-in-1のほうが安心感はある。
+
+薄型設計で設置面積も小さいため、「モニター裏に隠す」「デスクの端に立てる」といった省スペース運用にも向いている。TB5ドックを初めて導入する人、あるいはTB4ドックからの乗り換えで「まずはTB5の帯域を体感したい」という人には、最もハードルが低い選択肢だ。
+
+## Mac mini専用モデルは「スタック」に意味がある
+
+Mac mini M4ユーザーにとって一番気になるのがこのモデルだろう。127×127mmというMac miniと完全に同じフットプリントで、上にMac miniを載せてスタック運用する前提の設計である。電源ボタンの位置に合わせた切り込みがあり、スタックした状態でもMac miniの電源操作が可能だ。
+
+48,990円という価格は17-in-1より高い。しかし、このモデルの価値は「Mac miniのポート不足を解消しつつ、設置面積を増やさない」という一点にある。Mac mini M4はThunderbolt 4×3、USB-C×1、HDMI×1、GbE×1というポート構成で、外部ディスプレイは最大2台。M4 Proでも3台が限界だ。このドックを挟むことで、DP 2.1とTB5ダウンストリーム経由でディスプレイの選択肢が広がる。
+
+M.2 SSDスロットが搭載されているのもMac miniユーザーにとっては嬉しい。Mac mini M4の内蔵ストレージは256GB〜2TBだが、後から増設できない。NVMe SSDをドック側に入れておけば、データ用ストレージの拡張がケーブルレスで完結する。冷却システム内蔵で、Mac miniの熱がドック側に伝わっても安定動作を維持できる設計だという。
+
+なお、Mac mini（2024）のThunderbolt 5はM4 Proチップ搭載モデルのみ対応している点に注意が必要だ。M4チップモデルはThunderbolt 4までの対応となる。
+
+## CalDigit TS5 PlusやSatechi CubeDockとどう違うか
+
+Thunderbolt 5ドック市場にはすでにCalDigit TS5 Plus（約7万円）やSatechi CubeDock（約5万円）が存在する。UGREENのMaxidokシリーズがこれらと差別化できるポイントは「価格」と「ラインナップの幅」だ。
+
+CalDigit TS5 Plusは20ポート・10GbE・330W電源という最強スペックで、予算度外視なら依然として最強の選択肢である。ただし約7万円は、ドック単体としてはかなりの投資だ。一方、UGREEN 10-in-1はセール価格なら約2.8万円で、CalDigitの4割以下。TB5の基本体験を得るだけなら、価格差ほどの体験差はないというのが正直なところだろう。
+
+Satechi CubeDockはMac mini向けのコンパクト設計でUGREENのMac mini専用モデルと直接競合する。Satechiも140Wホスト充電とM.2 SSD内蔵に対応しており、デザイン性ではSatechiに一日の長がある。ただし価格はUGREEN Mac mini専用モデルと同等で、ポート数ではUGREENが有利だ。
+
+## まとめ：3機種の選び方を整理する
+
+UGREEN Maxidok TB5ドックの選び方は、自分の環境から逆算すればシンプルに決まる。
+
+**17-in-1を選ぶべき人**：MacBook Pro 16インチをメインで使っていて、外部ディスプレイ2台以上＋周辺機器多数の本格デスク環境を組んでいる人。M.2 SSDでTimeMachineバックアップやデータ保管をドックに一元化したい、2.5GbEでNASやリモート環境に高速接続したいならこれ一択。
+
+**10-in-1を選ぶべき人**：TB5ドックを初めて導入する人。外部ディスプレイは1〜2台で接続する周辺機器も少なめ、SSDスロットや2.5GbEは不要でコストを最優先したいならセール価格の約2.8万円は破格。MacBook AirやMacBook Pro 14インチがメインなら出力も問題ない。
+
+**Mac mini専用モデルを選ぶべき人**：Mac mini M4 Proをデスクトップとして常用していて、設置面積を増やさずにポート拡張したい人。内蔵ストレージが足りないがMac miniを買い替えたくない場合、M.2 SSDスロットで解決できる。スタック運用の一体感も魅力だ。
+
+個人的に気になっているのは17-in-1だ。M.2 SSDスロットの存在が大きい。外付けSSDケースを1つ減らせるだけで、デスク上のケーブルが1本消える。2.5GbEもNASとのファイル同期で効いてくる。46,513円という価格は、CalDigit TS5 Plusの約7万円を考えると相当がんばっている。TB5ドック市場の価格破壊を仕掛けてきたUGREENの本気度が見える3機種だ。
+
+<AmazonCard asin="B0GH1JMX6C" fallbackTitle="UGREEN Maxidok 17-in-1 Thunderbolt 5をAmazonで見る" />
+
+<AmazonCard asin="B0FRLVWT2D" fallbackTitle="UGREEN Maxidok 10-in-1 Thunderbolt 5をAmazonで見る" />
+
+### 関連リンク
+
+- [UGREEN Revodok Maxidok TB5 公式ページ](https://ugreen.jp/pages/revodok-maxidok-thunderbolt5)
+- [UGREEN プレスリリース](https://prtimes.jp/main/html/rd/p/000000078.000081071.html)

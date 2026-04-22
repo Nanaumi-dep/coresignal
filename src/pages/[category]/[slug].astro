@@ -29,11 +29,19 @@ const { Content, headings } = await render(post);
 // 目次（h2・h3のみ）
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
-// 関連記事（同カテゴリから最大3本、自分を除く）
+// 関連記事（同カテゴリ内でタグ一致数が多い順 → 同数なら日付が新しい順、最大3本）
 const allPosts = await getCollection("posts");
+const currentTags = post.data.tags || [];
 const relatedPosts = allPosts
   .filter((p) => p.data.category === post.data.category && p.id !== post.id)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .map((p) => {
+    const matchCount = (p.data.tags || []).filter((t) => currentTags.includes(t)).length;
+    return { ...p, _matchCount: matchCount };
+  })
+  .sort((a, b) => {
+    if (b._matchCount !== a._matchCount) return b._matchCount - a._matchCount;
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
   .slice(0, 3);
 ---
 

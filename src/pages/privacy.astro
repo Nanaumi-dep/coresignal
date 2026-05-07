@@ -5,7 +5,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <BaseLayout
   title="プライバシーポリシー"
   description="CoreSignal（coresignal.jp）のプライバシーポリシーです。個人情報の取り扱い、Cookie、アクセス解析、アフィリエイトについて説明しています。"
-  noindex={true}
 >
   <div class="max-w-3xl mx-auto px-4 py-16">
     <h1
@@ -15,7 +14,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       プライバシーポリシー
     </h1>
     <p class="text-sm mb-12" style="color: var(--color-text-muted);">
-      最終更新日：2026年3月21日
+      最終更新日：2026年5月7日
     </p>
 
     <div class="prose-article space-y-10">
@@ -53,6 +52,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <!-- アフィリエイト -->
       <section>
         <h2>広告・アフィリエイトについて</h2>
+          <p>
+            当サイトでは、第三者配信の広告サービス「Google AdSense」を利用しています。Google AdSenseは、Cookieを使用してユーザーの当サイトや他サイトへのアクセス情報に基づいて広告を配信します。ユーザーはGoogleの広告設定ページにて、パーソナライズ広告を無効にすることができます。
+          </p>
+          <ul>
+            <li>
+              <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">
+                Google 広告設定
+              </a>
+            </li>
+            <li>
+              <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
+                Google 広告ポリシー
+              </a>
+            </li>
+          </ul>
         <p>
           当サイトは、Amazon.co.jpを宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイトプログラムである、Amazonアソシエイト・プログラムの参加者です。
         </p>
@@ -69,6 +83,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
         <ul>
           <li>アクセス解析（Google アナリティクス 4）</li>
+          <li>広告配信（Google AdSense）</li>
           <li>テーマ設定（ライト／ダークモード）の保持</li>
         </ul>
         <p>

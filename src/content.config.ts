@@ -12,6 +12,9 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     eyecatch: z.string().default("/images/site/about-banner.png"),
     affiliate: z.boolean().default(false),
+    brand: z.string().optional(),
+    productName: z.string().optional(),
+    compatibleWith: z.array(z.string()).default([]),
   }),
 });
 

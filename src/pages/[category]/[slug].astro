@@ -26,6 +26,23 @@ if (!isValidCategory(category!) || category !== post.data.category) {
 
 const { Content, headings } = await render(post);
 
+// 構造化データ（Product schema）— brand & productName がある記事のみ
+const hasProductData = post.data.brand && post.data.productName;
+const productJsonLd = hasProductData
+  ? JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: post.data.productName,
+      brand: {
+        "@type": "Brand",
+        name: post.data.brand,
+      },
+      description: post.data.description,
+      image: post.data.eyecatch,
+      url: `https://coresignal.net/${post.data.category}/${slug}/`,
+    })
+  : null;
+
 // 目次（h2・h3のみ）
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
@@ -53,6 +70,11 @@ const relatedPosts = allPosts
   date={post.data.date}
   dateModified={post.data.dateModified}
 >
+  {/* Product 構造化データ（JSON-LD） */}
+  {productJsonLd && (
+    <script type="application/ld+json" set:html={productJsonLd} />
+  )}
+
   <article class="max-w-3xl mx-auto px-4 py-8">
     {/* ヘッダー */}
     <header class="mb-8">

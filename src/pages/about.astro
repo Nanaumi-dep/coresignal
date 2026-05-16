@@ -4,9 +4,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="About"
-  description="CoreSignal（coresignal.jp）について。エンジニアが運営するガジェット×クレジットカードのメディアです。"
+  description="CoreSignalはエンジニアが運営するガジェット×クレジットカードのメディア。スペック比較・事実整理を軸に、公式情報のみを使用して判断基準を整理しています。"
 >
   <div class="max-w-3xl mx-auto px-4 py-16">
+
+    <!-- ヒーローバナー -->
     <img
       src="/images/site/about-banner.png"
       alt="CoreSignal"
@@ -14,59 +16,153 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       style="aspect-ratio: 2048/1152; object-fit: cover;"
     />
 
-    <div class="prose-article space-y-10">
+    <div class="space-y-12">
+
       <!-- CoreSignalとは -->
-      <section>
-        <h2>CoreSignalとは</h2>
-        <p>
-          CoreSignalは、ガジェットとクレジットカードを軸にした個人メディアです。高単価デバイスの選び方、デスク環境の最適化、クレジットカードのポイント戦略など、「買い物の判断基準」を整理して発信しています。
+      <section style="border-top: 2px solid #7B2FBE; padding-top: 1rem;">
+        <h2 class="text-lg font-bold mb-3" style="color: var(--color-text-primary);">
+          CoreSignalとは
+        </h2>
+        <p class="text-sm mb-3" style="color: var(--color-text-secondary); line-height: 1.8;">
+          CoreSignalは、ガジェットとクレジットカードの「判断基準」を整理するメディアです。製品のスペック比較、変更点の事実整理、用途別の選び方など、読者が自分で選べるようになる情報を提供しています。
         </p>
-        <p>
-          スペックの羅列ではなく、何を基準に選ぶべきかという視点で記事を書いています。
+        <p class="text-sm mb-3" style="color: var(--color-text-secondary); line-height: 1.8;">
+          情報源はメーカー公式サイト・公式プレスリリースのみを使用し、他メディアの引用や伝聞情報は掲載しません。記事内の価格・スペック・日付はすべてファクトチェックを経て掲載しています。
         </p>
-      </section>
-
-      <!-- 運営者 -->
-      <section>
-        <h2>運営者</h2>
-        <p>
-          ナナ。エンジニア。AWS・GitHub等のクラウドサービスを日常的に扱う技術者で、ガジェットとクレジットカードが好きです。JCBプラチナでザ・クラスのインビテーションを目指して修行中。
+        <p class="text-sm mb-3" style="color: var(--color-text-secondary); line-height: 1.8;">
+          当サイトでは、記事の構成・文章作成の一部にAIツールを活用しています。最終的な内容の確認・編集・公開判断はすべて運営者が行っています。
         </p>
-        <p>
-          「何を買うか」よりも「どう最適化するか」にこだわるタイプで、金属素材の質感、打鍵感、所有体験そのものを重視しています。
+        <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8;">
+          情報の正確性には十分留意しておりますが、万が一誤りや不適切な引用等がございましたら、お問い合わせフォームよりご連絡いただけますと幸いです。確認のうえ速やかに対応いたします。
         </p>
       </section>
 
-      <!-- 扱うジャンル -->
-      <section>
-        <h2>扱うジャンル</h2>
-        <ul>
-          <li>Apple製品・USB-C周辺機器・デスク環境</li>
-          <li>クレジットカード（JCB修行、ポイント戦略、新カード情報）</li>
-          <li>ガジェット×クレカのクロスオーバー（高額決済のポイント戦略など）</li>
-        </ul>
+      <!-- 記事の方針 -->
+      <section style="border-top: 2px solid var(--color-border); padding-top: 1rem;">
+        <h2 class="text-lg font-bold mb-4" style="color: var(--color-text-primary);">
+          記事の方針
+        </h2>
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm font-semibold mb-1" style="color: var(--color-text-primary);">
+              <span style="color: #7B2FBE; margin-right: 8px;">01</span>スペック比較と事実整理が軸
+            </p>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8; padding-left: 28px;">
+              感想やランキングではなく、比較表と判断基準の整理を記事の中心に置いています。読者がスペックを見比べて自分の用途に合う製品を選べる構成を目指しています。
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-semibold mb-1" style="color: var(--color-text-primary);">
+              <span style="color: #7B2FBE; margin-right: 8px;">02</span>エンジニアの判断基準で整理する
+            </p>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8; padding-left: 28px;">
+              スペックの実用インパクト、コスパの定量化、既存環境との統合など、技術者が日常的に行う「どう最適化するか」という切り口で情報を整理しています。
+            </p>
+          </div>
+          <div>
+            <p class="text-sm font-semibold mb-1" style="color: var(--color-text-primary);">
+              <span style="color: #7B2FBE; margin-right: 8px;">03</span>未所有の製品は正直に書く
+            </p>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8; padding-left: 28px;">
+              使ったことがない製品を「使ってみた」とは書きません。未所有の製品は「検討過程」として、スペックと公式情報をもとに何を基準に選ぶべきかを整理しています。
+            </p>
+          </div>
+        </div>
       </section>
 
-      <!-- メディア展開 -->
-      <section>
-        <h2>メディア展開</h2>
-        <ul>
-          <li>
-            <strong>coresignal.jp</strong>（当サイト）— 比較・検討記事を中心としたメディア
-          </li>
-          <li>
-            <a href="https://www.youtube.com/channel/UCE6zSbiahAOJgfgJ6SZLWJA" target="_blank" rel="noopener noreferrer">YouTube</a> — 開封・レビュー動画
-          </li>
-        </ul>
+      <!-- 扱うジャンル（左ボーダー） -->
+      <section style="border-top: 2px solid var(--color-border); padding-top: 1rem;">
+        <h2 class="text-lg font-bold mb-4" style="color: var(--color-text-primary);">
+          扱うジャンル
+        </h2>
+        <div class="space-y-4">
+          <div style="border-left: 3px solid #7B2FBE; padding-left: 16px;">
+            <p class="text-sm font-semibold mb-1" style="color: var(--color-text-primary);">ガジェット</p>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8;">
+              Apple製品、USB-C周辺機器、キーボード、モニター、デスク環境の最適化。エンジニアの作業環境づくりを軸にした製品選びの判断基準を整理しています。
+            </p>
+          </div>
+          <div style="border-left: 3px solid #2196F3; padding-left: 16px;">
+            <p class="text-sm font-semibold mb-1" style="color: var(--color-text-primary);">クレジットカード</p>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8;">
+              年会費改定、特典変更、新カード情報の事実整理。ポイント戦略やJCB修行など、決済手段の最適化に役立つ情報をまとめています。
+            </p>
+          </div>
+        </div>
       </section>
+
+      <!-- 運営者について（カード） -->
+      <section style="border-top: 2px solid var(--color-border); padding-top: 1rem;">
+        <h2 class="text-lg font-bold mb-4" style="color: var(--color-text-primary);">
+          運営者について
+        </h2>
+        <div
+          class="flex flex-col sm:flex-row items-start gap-5 p-6 rounded-xl"
+          style="background: var(--color-bg-secondary); border: 1px solid var(--color-border);"
+        >
+          <div class="shrink-0 self-center sm:self-start">
+            <img
+              src="/images/site/profile.png"
+              alt="七海（ナナミ）"
+              class="rounded-full"
+              width="100"
+              height="100"
+              style="object-fit: cover; border: 2px solid var(--color-border);"
+            />
+          </div>
+          <div class="flex-1 space-y-2">
+            <div>
+              <p class="text-base font-bold mb-0" style="color: var(--color-text-primary);">
+                ナナ
+              </p>
+              <p class="text-xs mt-1 mb-0" style="color: var(--color-text-muted);">
+                インフラエンジニア｜CoreSignal 運営
+              </p>
+            </div>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8;">
+              AWS・Linux・コンテナ技術等のクラウドインフラを日常的に扱うエンジニア。仕事で使うツールやデバイスを選ぶとき、スペックを比較表にまとめて判断基準を整理する癖があり、その過程をコンテンツにしたのがCoreSignalの始まりです。
+            </p>
+            <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.8;">
+              ガジェットとクレジットカードが好きで、JCBプラチナでザ・クラスのインビテーションを目指して修行中。「何を買うか」よりも「どう最適化するか」にこだわるタイプで、金属素材の質感、打鍵感、所有体験そのものを重視しています。
+            </p>
+            <div class="flex gap-3 pt-1">
+              <a
+                href="https://note.com/coresignal_nana"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
+                style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-secondary); text-decoration: none;"
+              >
+                note
+              </a>
+              <a
+                href="https://www.youtube.com/channel/UCE6zSbiahAOJgfgJ6SZLWJA"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
+                style="background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-secondary); text-decoration: none;"
+              >
+                YouTube
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       <!-- お問い合わせ -->
-      <section>
-        <h2>お問い合わせ</h2>
-        <p>
-          記事に関するご質問、掲載に関するお問い合わせ、企業様からのご連絡は以下のフォームよりお願いいたします。
+      <section style="border-top: 2px solid var(--color-border); padding-top: 1rem;">
+        <h2 class="text-lg font-bold mb-3" style="color: var(--color-text-primary);">
+          お問い合わせ
+        </h2>
+        <p class="text-sm mb-3" style="color: var(--color-text-secondary); line-height: 1.8;">
+          記事内容に関するご質問・ご指摘、掲載情報の修正依頼はお気軽にご連絡ください。
         </p>
-        <div class="mt-6">
+        <p class="text-sm mb-4" style="color: var(--color-text-secondary); line-height: 1.8;">
+          レビュー依頼・広告掲載・その他お仕事に関するご相談も、以下のフォームより承っております。
+        </p>
+        <div class="text-center">
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSdllTR_M3CFlR9qnBn0DeCtnS0wjHluzdmY58NcGiHetsPgEw/viewform"
             target="_blank"
@@ -78,6 +174,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </a>
         </div>
       </section>
+
     </div>
   </div>
 </BaseLayout>

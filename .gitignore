@@ -8,3 +8,4 @@ dist/
 .astro/
 src/content/drafts/
 CoreSignal-credentials.csv
+.claude/skills/coresignal/

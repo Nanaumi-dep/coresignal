@@ -1,0 +1,90 @@
+---
+title: "Xcode 27の確定情報を整理｜Claude・Gemini内蔵のエージェント統合とオンデバイス補完の中身"
+description: "AppleがWWDC 2026で発表したXcode 27の確定情報を整理した。Apple Silicon専用化、Neural Engineオンデバイス補完、Claude・Gemini・ChatGPTのエージェント統合、MCP対応のGitHub・Figma連携、Foundation Models無料開放を網羅した。"
+date: "2026-06-14"
+category: "gadget"
+tags: ["Xcode 27", "Apple", "WWDC 2026", "開発者ツール"]
+eyecatch: "/images/posts/xcode-27.webp"
+affiliate: false
+---
+
+AppleはWWDC 2026 Keynoteで、次期統合開発環境「Xcode 27」を発表した。最大の変化はAIエージェントのIDE内統合だ。Anthropic（Claude）、Google（Gemini）、OpenAIのコーディングエージェントが直接組み込まれ、コード生成からテスト実行・修正までエージェントが自走するアーキテクチャに作り直されている。
+
+加えて、Apple SiliconのNeural Engineを使ったオンデバイス補完、Model Context Protocol（MCP）対応によるGitHub・Figmaとの接続、Foundation Modelsフレームワークの個人開発者向け無料開放など、AI時代の開発フローを前提とした要素が一通り揃った。WWDC終了直後の公式・各社報道をもとに、Xcode 27に絞って確定内容を整理する。
+
+## 確定された基本情報
+
+| 項目 | 内容 |
+|---|---|
+| 対応OS | macOS 27（Golden Gate）以降 |
+| 対応Mac | Apple Silicon（M1以降）専用 |
+| Intel Mac | 非対応（完全切り捨て） |
+| アプリサイズ | 前バージョン比で約30%軽量化 |
+| Xcode Cloud | 最大2倍高速化（Metal対応・visionOSビルドにも対応） |
+| 開発者ベータ | 2026年6月8日（米国時間）から配布 |
+| 正式版 | macOS 27正式リリース（秋）と同時の見込み |
+
+Intel Macは正式に対応外となり、macOS 27と歩調を合わせる形でApple Silicon専用化が確定した。M1以降のMacを持つ開発者は、Apple Developerプログラム加入で当日から開発者ベータを試せる状態だ。
+
+## Apple Silicon専用化と運用面の改善
+
+Apple Silicon専用化に伴い、アプリサイズは前世代比で約30%軽量化された。エディタ自体の軽量化に加え、運用面でも次のような改善が入っている。
+
+- **iCloud設定同期**：キーバインドやテーマ設定が複数Macで自動同期される
+- **カスタマイズ可能なツールバー**：レイアウトを自分好みに変更可能
+- **新テーマシステム**：エディタ全体に一貫したカラースキームが適用される
+- **Xcode Cloudの高速化**：従来比で最大2倍速。Metal対応アプリやvisionOSビルドにも対応
+
+複数のMacを使い分けている開発者にとっては、iCloud設定同期だけでも日常的な摩擦が減る要素だ。
+
+## オンデバイスAI補完——コードがローカル完結する設計
+
+Xcode 27のコード補完は、Apple SiliconのNeural Engine上でローカル実行される設計に切り替わった。Swift と Apple SDK に特化したモデルが Mac 上で動作し、ソースコードはサーバーに送信されない。
+
+この設計はGitHub CopilotやCursorのようなクラウド前提の補完サービスとは前提が異なり、業務でプロプライエタリなコードを扱う環境において、選定基準として無視できないポイントになる。
+
+実装面では、Apple Siliconの統合メモリアーキテクチャ（Unified Memory Architecture）が効いている。CPU・GPU・Neural Engineが同じメモリプールを共有するため、推論時にバス間でデータをコピーする必要がない。メモリ帯域はM1で68GB/s、M1 Maxで400GB/sとされ、それをそのまま推論処理に充てられる構造だ。
+
+## Claude・Gemini・ChatGPTのエージェント統合
+
+Xcode 27の中核アップデートが、エージェントコーディングの拡張だ。Anthropic（Claude）、Google（Gemini）、OpenAIのコーディングエージェントがIDE内に直接統合された。
+
+処理は二刀流の構成になっている。ローカルのNeural Engineモデルがリアルタイム補完を担当し、構造的なバグ検出やマルチファイルの設計分析など重い処理はクラウドのAIエージェントにルーティングされる。
+
+エージェントが自走できる範囲も拡張された。
+
+- **テストの作成と実行**：コード変更に対するテストの起案・実装・実行まで自動化
+- **Playgroundsでのアイデア検証**：隔離環境で試行錯誤
+- **プレビューでのビジュアル確認**：UI変更をリアルタイムで確認
+- **Device Hubでシミュレータ操作**：物理デバイス管理とシミュレータのリサイズを1画面で
+
+会話UIも更新されており、インタラクティブなプランニング、マルチターンのQ&A、Markdownレンダリング、コード差分とプレビューを横並びで表示するキャンバス機能が加わった。エージェントとプランを立て、変更箇所をサイドバイサイドでレビューしながら進めるワークフローが標準的な使い方として想定されている。
+
+## MCP対応——GitHub・Figmaが初期統合パートナーに
+
+Xcode 27は**Model Context Protocol（MCP）**に対応した。MCPはAnthropicが提唱したオープンプロトコルで、AIエージェントと外部ツールを標準仕様で接続する仕組みだ。これにより、普段使っているツールをXcodeのエージェントに直接接続できる。
+
+加えて**Agent Client Protocol**にも対応し、互換性のあるあらゆるエージェントを接続可能な設計になっている。最初のシームレスインテグレーションパートナーとして**GitHubとFigma**が発表された。
+
+GitHubのIssueやPRをXcode内からエージェント経由で操作したり、Figmaのデザインデータを参照しながらUI実装を進めたりといった、開発フロー全体をXcode内で完結させる方向に大きく動いている。
+
+## Foundation Modelsフレームワークと個人開発者への無料開放
+
+開発者向けのAI基盤として、Foundation Modelsフレームワークが**単一のSwift API**に統合された。次の構成で利用できる。
+
+- **オンデバイスモデル**：画像入力に対応、Apple Siliconで高速推論
+- **サーバーモデル**：Claude、Gemini、その他LanguageModelプロトコルを実装したプロバイダを呼び出し
+- **Dynamic Profiles**：アプリの挙動を動的に切り替え
+- **Core AI**：カスタムモデルをApple Silicon最適化で実行する新フレームワーク
+
+注目すべきは、**App Store Small Business Program**に加入しており、累計初回ダウンロード数が200万未満の開発者については、Private Cloud Compute上のApple Foundation Modelsを**無料**で利用できる点だ。個人開発者やスタートアップにとって、AIインフラのコストが事実上ゼロになる設計になっている。
+
+Swift Package Managerの依存関係を変更するだけで、Apple → Claude → Geminiとプロバイダを切り替えられる仕様で、セッションロジックやアプリコード本体に変更を加えずにAIプロバイダを差し替えられる。
+
+## まとめ
+
+Xcode 27は、Apple Silicon専用化と30%軽量化という運用面の更新に加えて、AI時代の開発環境として再設計された側面が大きい。Neural Engineによるオンデバイス補完でコードを外に出さない設計、Claude・Gemini・ChatGPTのエージェント統合と二刀流のクラウドルーティング、MCP対応によるGitHub・Figmaとの接続、Foundation Modelsの個人開発者向け無料化——という一連の要素が同時に揃った。
+
+正式版はmacOS 27（Golden Gate）の秋リリースと同時の見込みだが、開発者ベータは6月8日から配布済みだ。Apple Developerプログラム加入者であれば、現時点で動作確認を開始できる。
+
+→ 関連記事：[Siri AIの確定情報を整理｜Gemini採用と3層プライバシー構造でChatGPTと並ぶチャットボットへ](/gadget/siri-ai-wwdc-2026/)

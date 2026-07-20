@@ -99,6 +99,56 @@ def github_api(method, endpoint, pat, data=None):
 
 
 # ==========================
+# amazon-cache.json 専用マージ処理
+# ==========================
+def _merge_amazon_cache_with_remote(pat, local_path, branch):
+    """
+    amazon-cache.json のマージ処理:
+    - GitHub 最新版を base（PA-API 週次更新の結果を尊重）
+    - ローカルの新規ASINだけを追加
+    - 既存ASINは GitHub 最新を優先（ローカルの古い版で上書きしない）
+
+    これにより GitHub Actions の週次 PA-API 更新と、auto-round/monitor の
+    新ASIN追加が競合しなくなる。
+    """
+    # GitHub から最新版を取得
+    try:
+        result = github_api(
+            "GET",
+            f"contents/src/data/amazon-cache.json?ref={branch}",
+            pat
+        )
+        remote_content = base64.b64decode(result["content"]).decode("utf-8")
+        remote_cache = json.loads(remote_content)
+    except SystemExit:
+        # リモートに amazon-cache.json が無い、または取得失敗
+        # → フォールバック：ローカル版をそのまま送る
+        print("[merge] WARNING: remote amazon-cache.json not found, using local as-is")
+        with open(local_path, "rb") as f:
+            return f.read()
+
+    # ローカル版を読む
+    with open(local_path, "r", encoding="utf-8") as f:
+        local_cache = json.load(f)
+
+    # マージ：既存ASINは remote、新規ASINは local
+    merged = dict(remote_cache)  # remote をベースにする
+    added_asins = []
+    for asin, info in local_cache.items():
+        if asin not in remote_cache:
+            merged[asin] = info
+            added_asins.append(asin)
+
+    if added_asins:
+        print(f"[merge] Added ASINs from local: {', '.join(added_asins)}")
+    else:
+        print(f"[merge] No new ASINs to add, remote version kept as-is")
+
+    # JSON 整形して bytes 化（update-amazon-cache.mjs と同じフォーマット）
+    return json.dumps(merged, ensure_ascii=False, indent=2).encode("utf-8")
+
+
+# ==========================
 # Git Data API による atomic commit
 # ==========================
 def commit_files(pat, branch, message, files_to_add, files_to_delete):
@@ -123,8 +173,17 @@ def commit_files(pat, branch, message, files_to_add, files_to_delete):
     for repo_path, local_path in files_to_add:
         if not os.path.exists(local_path):
             sys.exit(f"ERROR: file not found: {local_path}")
-        with open(local_path, "rb") as f:
-            content_b64 = base64.b64encode(f.read()).decode("ascii")
+
+        # amazon-cache.json だけ特別処理：GitHub 最新版とマージ
+        # 目的：GitHub Actions の週次 PA-API 更新（既存ASINの価格）を上書きせず、
+        #      ローカルの新規ASINだけを追加する
+        if repo_path == "src/data/amazon-cache.json":
+            content_bytes = _merge_amazon_cache_with_remote(pat, local_path, branch)
+        else:
+            with open(local_path, "rb") as f:
+                content_bytes = f.read()
+
+        content_b64 = base64.b64encode(content_bytes).decode("ascii")
         blob = github_api("POST", "git/blobs", pat, {
             "content": content_b64,
             "encoding": "base64",

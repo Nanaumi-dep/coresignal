@@ -1,0 +1,44 @@
+---
+/**
+ * Amazon 検索リンク用コンポーネント（AmazonCard の代替）
+ *
+ * 使い所：
+ * - Amazon.co.jp に該当ASINの商品ページがない（発売間もない新製品等）
+ * - ASIN が取得できないが、型番検索なら結果が出る場合
+ *
+ * これで解決する問題：
+ * - 仮ASIN（XXXXXXXXXX）で AmazonCard を貼ると /dp/XXXXXXXXXX?tag=xxx へ飛んで404
+ * - Amazon Associates タグを付けないと成果報酬発生しない
+ */
+interface Props {
+  searchQuery: string;
+  fallbackTitle?: string;
+}
+
+const { searchQuery, fallbackTitle = '' } = Astro.props;
+const tag = import.meta.env.AMAZON_PARTNER_TAG;
+const href = `https://www.amazon.co.jp/s?k=${encodeURIComponent(searchQuery)}&tag=${tag}`;
+const linkText = fallbackTitle || `${searchQuery} をAmazonで探す`;
+---
+
+<div class="amazon-card-fallback">
+  <a href={href} rel="nofollow sponsored" target="_blank">
+    {linkText} →
+  </a>
+</div>
+
+<style>
+  .amazon-card-fallback {
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  .amazon-card-fallback a {
+    display: inline-block;
+    background: #ff9900;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>

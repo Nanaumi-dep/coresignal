@@ -37,8 +37,11 @@ import urllib.error
 # ==========================
 REPO_OWNER = "Nanaumi-dep"
 REPO_NAME = "coresignal"
-CREDENTIALS_FILE = "/sessions/stoic-kind-einstein/mnt/CoreSignal/.git-credentials"
-LOCAL_REPO_ROOT = "/sessions/stoic-kind-einstein/mnt/CoreSignal/CoreSignal-media"
+# sandbox セッション名は毎回変わるため、スクリプト自身の位置から動的に解決する
+# scripts/github-push.py → CoreSignal-media → CoreSignal（.git-credentials 置き場）
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOCAL_REPO_ROOT = os.path.dirname(_SCRIPT_DIR)
+CREDENTIALS_FILE = os.path.join(os.path.dirname(LOCAL_REPO_ROOT), ".git-credentials")
 
 
 # ==========================

@@ -9,12 +9,31 @@ const sortedPosts = allPosts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
+// 【今のおすすめ TOP 5】GA4/GSC データをもとに月次で手動更新推奨
+// 選定基準：PV or CTR が高い、収益源となる、季節性のあるもの
+const FEATURED_SLUGS = [
+  "creditcard/paypay-card-june-alternatives",
+  "gadget/anker-prime-power-bank-300w",
+  "creditcard/mileageplus-jcb-plat",
+  "gadget/mac-mini-m5-wwdc",
+  "gadget/kindle-scribe-2026",
+];
+const featuredPosts = FEATURED_SLUGS
+  .map((slug) => allPosts.find((p) => p.id === slug || p.id === slug + ".mdx"))
+  .filter((p): p is NonNullable<typeof p> => p !== undefined);
+
 const featuredPost = sortedPosts[0];
 const featuredCat = featuredPost
   ? CATEGORY_MAP[featuredPost.data.category]
   : null;
 
 const gridPosts = sortedPosts.slice(1, 9);
+
+// 各カテゴリの最新3記事
+const categoryPreview = CATEGORIES.map((cat) => ({
+  ...cat,
+  posts: sortedPosts.filter((p) => p.data.category === cat.slug).slice(0, 3),
+}));
 ---
 
 <BaseLayout
@@ -87,9 +106,35 @@ const gridPosts = sortedPosts.slice(1, 9);
     </section>
   )}
 
+  {/* 【新設】今のおすすめ セクション */}
+  {featuredPosts.length > 0 && (
+    <section class="max-w-6xl mx-auto px-4 pb-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold" style="color: var(--color-text-primary);">
+          <span class="mr-1" style="color: #e94560;">|</span>今のおすすめ
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {featuredPosts.map((post) => {
+          const cat = CATEGORY_MAP[post.data.category];
+          return (
+            <ArticleCard
+              href={getPostUrl(post)}
+              title={post.data.title}
+              date={post.data.date}
+              eyecatch={post.data.eyecatch}
+              categoryName={cat?.name}
+              categoryColor={cat?.color}
+            />
+          );
+        })}
+      </div>
+    </section>
+  )}
+
   {/* 最新記事グリッド */}
   {gridPosts.length > 0 && (
-    <section class="max-w-6xl mx-auto px-4 pb-16">
+    <section class="max-w-6xl mx-auto px-4 pb-12">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-bold" style="color: var(--color-text-primary);">
           <span class="mr-1" style="color: #e94560;">|</span>最新記事
@@ -113,31 +158,83 @@ const gridPosts = sortedPosts.slice(1, 9);
     </section>
   )}
 
-  {/* カテゴリセクション */}
-  <section class="max-w-6xl mx-auto px-4 pb-20">
+  {/* 【拡張】カテゴリセクション：各カテゴリのプレビュー付き */}
+  <section class="max-w-6xl mx-auto px-4 pb-12">
     <h2 class="text-lg font-bold mb-6" style="color: var(--color-text-primary);">
       <span class="mr-1" style="color: #e94560;">|</span>カテゴリ
     </h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {CATEGORIES.map((cat) => (
-        <a
-          href={`/${cat.slug}/`}
-          class="group relative rounded-xl border p-5 text-center transition-all duration-300 overflow-hidden"
-          style={`background-color: var(--color-surface); border-color: var(--color-border);`}
+    <div class="grid md:grid-cols-2 gap-5">
+      {categoryPreview.map((cat) => (
+        <div
+          class="rounded-xl border p-5"
+          style={`background-color: var(--color-surface); border-color: var(--color-border); border-top: 3px solid ${cat.color};`}
         >
-          <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={`background: linear-gradient(135deg, ${cat.color}08, ${cat.color}15);`}
-          />
-          <span class="relative text-base font-bold" style={`color: ${cat.color};`}>
-            {cat.name}
-          </span>
-          <div
-            class="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-            style={`background: ${cat.color};`}
-          />
-        </a>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-bold" style={`color: ${cat.color};`}>
+              {cat.name}
+            </h3>
+            <a
+              href={`/${cat.slug}/`}
+              class="text-xs font-medium transition-opacity hover:opacity-70"
+              style={`color: ${cat.color};`}
+            >
+              すべて見る →
+            </a>
+          </div>
+          <div class="space-y-3">
+            {cat.posts.map((p) => (
+              <a
+                href={getPostUrl(p)}
+                class="block text-sm transition-colors hover:opacity-80"
+                style="color: var(--color-text-secondary); line-height: 1.5;"
+              >
+                {p.data.title}
+              </a>
+            ))}
+          </div>
+        </div>
       ))}
+    </div>
+  </section>
+
+  {/* 【新設】書き手紹介ボックス（E-E-A-T シグナル + about 導線）*/}
+  <section class="max-w-4xl mx-auto px-4 pb-20">
+    <div
+      class="rounded-xl border p-6"
+      style="background-color: var(--color-bg-secondary); border-color: var(--color-border);"
+    >
+      <div class="flex flex-col sm:flex-row items-start gap-5">
+        <div class="shrink-0 self-center sm:self-start">
+          <img
+            src="/images/site/profile.png"
+            alt="ナナ（CoreSignal 編集長）"
+            class="rounded-full"
+            width="80"
+            height="80"
+            style="object-fit: cover; border: 2px solid var(--color-border);"
+          />
+        </div>
+        <div class="flex-1 space-y-2">
+          <div>
+            <p class="text-base font-bold mb-0" style="color: var(--color-text-primary);">
+              ナナ｜CoreSignal 編集長
+            </p>
+            <p class="text-xs mt-1 mb-0" style="color: var(--color-text-muted);">
+              インフラエンジニア（AWS・Linux・コンテナ）
+            </p>
+          </div>
+          <p class="text-sm" style="color: var(--color-text-secondary); line-height: 1.7;">
+            仕事で使うツールをスペック比較表にまとめて判断基準を整理する癖から生まれた「判断基準を整理するメディア」。ガジェットとクレカを中心に、公式情報のみで事実整理型の記事を書いています。
+          </p>
+          <a
+            href="/about/"
+            class="inline-block text-xs font-medium mt-1 transition-opacity hover:opacity-70"
+            style="color: #7B2FBE;"
+          >
+            プロフィール詳細 →
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

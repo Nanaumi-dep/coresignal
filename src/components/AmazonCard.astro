@@ -16,12 +16,14 @@ const product = await getProductByAsin(asin);
       <div class="amazon-card-info">
         <span class="amazon-card-badge">Amazon</span>
         <p class="amazon-card-title">{product.title}</p>
-        <p class="amazon-card-price">{product.price}</p>
+        {product.price && <p class="amazon-card-price">{product.price}</p>}
         <span class="amazon-card-btn">Amazonで見る →</span>
       </div>
-      <div class="amazon-card-img">
-        <img src={product.imageUrl} alt={product.title} loading="lazy" />
-      </div>
+      {product.imageUrl && (
+        <div class="amazon-card-img">
+          <img src={product.imageUrl} alt={product.title} loading="lazy" />
+        </div>
+      )}
     </div>
   </a>
 ) : (

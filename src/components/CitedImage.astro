@@ -1,0 +1,39 @@
+---
+/**
+ * CitedImage — 出所明示付き画像コンポーネント
+ *
+ * ニュースリリース添付画像など、外部提供素材を記事内で使う際に必ずこれを使う。
+ * キャプション書式（画像：〇〇（日付）より）をコンポーネント側で強制し、
+ * 出所明示の書き忘れ・表記ゆれを防ぐ。
+ *
+ * 使用例（MDX）:
+ * import CitedImage from '../../../components/CitedImage.astro';
+ * <CitedImage
+ *   src="/images/posts/example-card-renewal.webp"
+ *   alt="新デザインの券面"
+ *   sourceName="三井住友カード ニュースリリース"
+ *   sourceUrl="https://www.smbc-card.com/company/news/newsXXXXX.jsp"
+ *   sourceDate="2026年7月22日"
+ * />
+ */
+interface Props {
+  src: string;
+  alt: string;
+  sourceName: string;
+  sourceUrl: string;
+  sourceDate?: string;
+}
+const { src, alt, sourceName, sourceUrl, sourceDate } = Astro.props;
+---
+<figure class="my-6">
+  <img src={src} alt={alt} class="w-full rounded-xl" loading="lazy" />
+  <figcaption class="text-xs mt-2" style="color: var(--color-text-muted);">
+    画像：<a
+      href={sourceUrl}
+      rel="noopener"
+      target="_blank"
+      class="underline"
+      style="color: var(--color-text-muted);"
+    >{sourceName}</a>{sourceDate ? `（${sourceDate}）` : ''}より
+  </figcaption>
+</figure>

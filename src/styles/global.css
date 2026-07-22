@@ -198,3 +198,7 @@ body {
   opacity: 0.85;
   transform: translateY(-1px);
 }
+
+html {
+  scroll-behavior: smooth;
+}

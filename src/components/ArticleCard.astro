@@ -39,7 +39,7 @@ const { href, title, date, eyecatch, categoryName, categoryColor } = Astro.props
     >
       {title}
     </h3>
-    <time class="text-xs mt-2 block" style="color: var(--color-text-muted);">{date}</time>
+    <time class="text-xs mt-2 block" style="color: var(--color-text-muted);">{date.slice(0, 10)}</time>
   </div>
 </a>
 

@@ -84,7 +84,7 @@ const categoryPreview = CATEGORIES.map((cat) => ({
             </p>
             <div class="flex items-center justify-between mt-4">
               <time class="text-xs" style="color: var(--color-text-muted);">
-                {featuredPost.data.date}
+                {featuredPost.data.date.slice(0, 10)}
               </time>
               <span class="text-sm font-medium" style="color: #e94560;">
                 続きを読む &rarr;

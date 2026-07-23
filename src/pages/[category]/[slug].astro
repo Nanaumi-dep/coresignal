@@ -71,9 +71,9 @@ const relatedPosts = allPosts
         {post.data.title}
       </h1>
       <div class="flex items-center gap-4 text-sm" style="color: var(--color-text-muted);">
-        <time datetime={post.data.date}>公開: {post.data.date}</time>
+        <time datetime={post.data.date}>公開: {post.data.date.slice(0, 10)}</time>
         {post.data.dateModified && (
-          <time datetime={post.data.dateModified}>更新: {post.data.dateModified}</time>
+          <time datetime={post.data.dateModified}>更新: {post.data.dateModified.slice(0, 10)}</time>
         )}
       </div>
       {post.data.tags.length > 0 && (

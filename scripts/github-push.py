@@ -131,18 +131,29 @@ def _merge_amazon_cache_with_remote(pat, local_path, branch):
     with open(local_path, "r", encoding="utf-8") as f:
         local_cache = json.load(f)
 
-    # マージ：既存ASINは remote、新規ASINは local
+    # マージ：新規ASINは local を追加。既存ASINは updatedAt が新しい方を採用
+    # （古いローカルで週次PA-API更新を潰さず、ローカルでのオンデマンドPA-API更新は反映する）
     merged = dict(remote_cache)  # remote をベースにする
     added_asins = []
+    updated_asins = []
     for asin, info in local_cache.items():
         if asin not in remote_cache:
             merged[asin] = info
             added_asins.append(asin)
+        else:
+            r = remote_cache[asin]
+            local_newer = str(info.get("updatedAt", "")) > str(r.get("updatedAt", ""))
+            fills_image = bool(info.get("imageUrl")) and not r.get("imageUrl")
+            if local_newer or fills_image:
+                merged[asin] = info
+                updated_asins.append(asin)
 
     if added_asins:
         print(f"[merge] Added ASINs from local: {', '.join(added_asins)}")
-    else:
-        print(f"[merge] No new ASINs to add, remote version kept as-is")
+    if updated_asins:
+        print(f"[merge] Updated ASINs from local (newer updatedAt): {', '.join(updated_asins)}")
+    if not added_asins and not updated_asins:
+        print(f"[merge] No cache changes from local, remote version kept as-is")
 
     # JSON 整形して bytes 化（update-amazon-cache.mjs と同じフォーマット）
     return json.dumps(merged, ensure_ascii=False, indent=2).encode("utf-8")

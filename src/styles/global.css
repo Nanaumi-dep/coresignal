@@ -26,7 +26,7 @@
   --color-text-primary: #111111;
   --color-text-secondary: #555555;
   --color-text-muted: #999999;
-  --color-header-bg: rgba(255, 255, 255, 0.85);
+  --color-header-bg: rgba(15, 23, 42, 0.9);
 }
 
 /* ダークテーマ（手動切替） */
@@ -38,7 +38,7 @@
   --color-text-primary: #f0f0f0;
   --color-text-secondary: #aaaaaa;
   --color-text-muted: #666666;
-  --color-header-bg: rgba(10, 10, 10, 0.85);
+  --color-header-bg: rgba(16, 24, 43, 0.9);
 }
 
 /* OS設定追従（手動でlightを選んでいない場合） */
@@ -51,15 +51,23 @@
     --color-text-primary: #f0f0f0;
     --color-text-secondary: #aaaaaa;
     --color-text-muted: #666666;
-    --color-header-bg: rgba(10, 10, 10, 0.85);
+    --color-header-bg: rgba(16, 24, 43, 0.9);
   }
 }
 
-/* ===== サイトヘッダー（すりガラス） ===== */
+/* ===== サイトヘッダー（ネイビー×すりガラス、両モード共通） ===== */
 .site-header {
   background-color: var(--color-header-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  --header-text: #f0f0f0;
+  --header-text-secondary: #a8b3c4;
+}
+
+/* ヘッダー直下のグラデーションライン（サイトの署名、全モード共通） */
+.header-gradient-line {
+  height: 2px;
+  background: linear-gradient(90deg, #2196F3, #7B2FBE);
 }
 
 /* ===== ベーススタイル ===== */

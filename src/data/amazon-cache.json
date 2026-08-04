@@ -838,5 +838,26 @@
     "imageUrl": "https://m.media-amazon.com/images/I/21eFVa5KgZL._SL500_.jpg",
     "detailUrl": "https://www.amazon.co.jp/dp/B0CCJFY2V4?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
     "updatedAt": "2026-08-03T11:09:01.094Z"
+  },
+  "B0DGTHLFXF": {
+    "title": "Anker Prime USB-C & USB-C ケーブル Thunderbolt 4 (240W, 40Gbps) 1.0m ブラック",
+    "price": "￥3,990",
+    "imageUrl": "https://m.media-amazon.com/images/I/31RgpfB-myL._SL500_.jpg",
+    "detailUrl": "https://www.amazon.co.jp/dp/B0DGTHLFXF?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
+    "updatedAt": "2026-08-04T11:07:33.969Z"
+  },
+  "B0D7CRS22C": {
+    "title": "Anker Prime 高耐久ナイロン USB-C & USB-C ケーブル 240W",
+    "price": "￥2,390",
+    "imageUrl": "https://m.media-amazon.com/images/I/21GjP9OkHBL._SL500_.jpg",
+    "detailUrl": "https://www.amazon.co.jp/dp/B0D7CRS22C?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
+    "updatedAt": "2026-08-04T11:07:36.999Z"
+  },
+  "B082X5QY91": {
+    "title": "UGREEN USB C ケーブル 4K / 60Hz映像出力 240W/5A USB 3.2 Gen 2/10Gbps高速転送 ナイロン編み 1M",
+    "price": "￥2,152",
+    "imageUrl": "https://m.media-amazon.com/images/I/41JkzIXA7ZL._SL500_.jpg",
+    "detailUrl": "https://www.amazon.co.jp/dp/B082X5QY91?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
+    "updatedAt": "2026-08-04T11:07:38.073Z"
   }
 }

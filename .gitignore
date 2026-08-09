@@ -10,4 +10,3 @@ src/content/drafts/
 CoreSignal-credentials.csv
 .claude/skills/coresignal/
 scripts/__pycache__/
-astro.config.test.mjs

@@ -36,9 +36,61 @@ except ImportError:
 
 SITE_URL = "https://coresignal.jp"
 API_ENDPOINT = "https://api.twitter.com/2/tweets"
-TWEET_MAX = 280
-URL_LENGTH = 23          # X は URL を一律23文字として数える
+
+# X の加重文字カウント（twitter-text 準拠）
+#   ASCII・ラテン系 = 1 / 日本語などの CJK = 2 / URL = 23 固定
+#   上限 280 なので、日本語のみなら実質 140 文字
+TWEET_MAX_WEIGHT = 280
+URL_WEIGHT = 23
 POST_INTERVAL_SEC = 5    # 複数投稿時の間隔
+
+# 重み1として扱う Unicode 範囲（twitter-text の weightedRanges）
+LIGHT_RANGES = (
+    (0x0000, 0x10FF),   # ASCII, ラテン, ギリシャ, キリル, ヘブライ, アラビア 等
+    (0x2000, 0x200D),
+    (0x2010, 0x201F),
+    (0x2032, 0x2037),
+)
+
+
+def char_weight(ch: str) -> int:
+    cp = ord(ch)
+    for lo, hi in LIGHT_RANGES:
+        if lo <= cp <= hi:
+            return 1
+    return 2
+
+
+def weighted_len(text: str) -> int:
+    """X の加重文字数を返す（URL は別途 URL_WEIGHT で計算する前提）。"""
+    return sum(char_weight(c) for c in text)
+
+
+def truncate_weighted(text: str, budget: int, sentence_end: bool = False) -> str:
+    """加重 budget に収まるよう末尾を切る。
+
+    sentence_end=True なら「。」で終わる位置を優先して切り、
+    語の途中で切れた不格好な末尾を避ける（見つからなければ … で切る）。
+    """
+    if weighted_len(text) <= budget:
+        return text
+
+    acc, out = 0, []
+    for ch in text:
+        w = char_weight(ch)
+        if acc + w > budget - 2:      # 末尾の … と余白分
+            break
+        acc += w
+        out.append(ch)
+    cut = "".join(out)
+
+    if sentence_end:
+        # 「。」で終われるならそこまで（短くなりすぎない範囲で）
+        idx = cut.rfind("。")
+        if idx >= 0 and weighted_len(cut[: idx + 1]) >= budget * 0.5:
+            return cut[: idx + 1]
+
+    return cut.rstrip("、。・ ") + "…"
 
 # タグ → ハッシュタグ変換（該当なしはスキップ）
 HASHTAG_MAP = {
@@ -117,33 +169,37 @@ def build_hashtags(fm: dict) -> str:
 
 
 def build_tweet(fm: dict, url: str) -> str:
-    """280文字に収まるツイート本文を組み立てる。"""
+    """加重280に収まるツイート本文を組み立てる（日本語は1文字=2）。"""
     title = fm.get("title", "").strip()
     desc = fm.get("description", "").strip()
     hashtags = build_hashtags(fm)
 
-    # タイトルの "｜" 以降は補足なので、長い場合は落とす
-    title_short = title.split("｜")[0].strip() if len(title) > 60 else title
+    # タイトルの "｜" 以降は補足。加重が重いので原則そちらは落とす
+    title_main = title.split("｜")[0].strip()
 
-    # URL(23) + 改行類 + ハッシュタグ の固定分を引いた残りが本文枠
-    fixed = URL_LENGTH + len(hashtags) + 4  # 改行 x3 + 余白
-    body_budget = TWEET_MAX - fixed
+    # 固定消費分: URL(23) + ハッシュタグ + 改行(\n\n × 最大3 = 加重6)
+    fixed = URL_WEIGHT + weighted_len(hashtags) + 6
+    body_budget = TWEET_MAX_WEIGHT - fixed
 
-    body = title_short
-    # タイトルが短ければ description の頭も足す
-    if len(body) + 40 < body_budget and desc:
-        remain = body_budget - len(body) - 2
-        if remain > 20:
-            snippet = desc[:remain].rstrip("、。 ")
-            body = f"{body}\n\n{snippet}"
+    # 1. タイトル本体を入れる（長すぎれば切る）
+    body = truncate_weighted(title_main, body_budget)
 
-    if len(body) > body_budget:
-        body = body[: body_budget - 1].rstrip() + "…"
+    # 2. 余りがあれば description の頭を足す（最低でも加重40は欲しい）
+    used = weighted_len(body)
+    remain = body_budget - used - 2      # 改行分
+    if desc and remain >= 40:
+        snippet = truncate_weighted(desc, remain, sentence_end=True)
+        body = f"{body}\n\n{snippet}"
 
     parts = [body, url]
     if hashtags:
         parts.append(hashtags)
     return "\n\n".join(parts)
+
+
+def tweet_weight(text: str, url: str) -> int:
+    """完成したツイートの加重長（URL は23固定換算）。"""
+    return weighted_len(text.replace(url, "")) + URL_WEIGHT
 
 
 # ─────────────────────────────────────────

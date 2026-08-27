@@ -1,0 +1,99 @@
+---
+title: "新型Mac Studioは512GBメモリでローカルLLMの答えになるか｜M5 UltraとM6の違いを整理した"
+description: "Appleが2026年8月25日に新型Mac Studioを発表した。搭載チップはM5 MaxとM5 Ultraで、同日発表のM6はMac mini側にあたる。日本価格419,800円からという据え置き、最大512GBの統合メモリ、Thunderbolt 5クラスタリングの中身を整理した。"
+date: "2026-08-27T12:00"
+category: "gadget"
+tags: ["Apple", "Mac Studio", "M5 Ultra", "ローカルLLM", "デスク環境"]
+eyecatch: "/images/posts/mac-studio-m5.webp"
+affiliate: true
+brand: "Apple"
+productName: "Mac Studio (M5 Max / M5 Ultra)"
+compatibleWith: ["studio-display", "thunderbolt-5"]
+---
+
+import AmazonSearchLink from '../../../components/AmazonSearchLink.astro';
+
+Appleは2026年8月25日、新型Mac Studioを発表した。搭載チップはM5 MaxとM5 Ultraの2種類で、予約受付は同日開始、出荷開始は9月22日となる。512GBの統合メモリ構成のみ10月下旬にずれ込む。
+
+日本での価格はM5 Max搭載モデルが419,800円から、M5 Ultra搭載モデルが949,800円からとなる。M5 Max側は前世代M4 Max搭載モデルからの据え置きにあたる。
+
+<AmazonSearchLink searchQuery="Mac Studio M5 Max" fallbackTitle="Mac Studio をAmazonで探す" />
+
+## 同日発表のM6はMac Studioには載っていない
+
+同じ8月25日に、Appleは「M6とM5 Ultra」というチップ発表も行っている。ここが混同されやすいポイントになる。
+
+| 発表された組み合わせ | 搭載機 | 位置付け |
+|---|---|---|
+| M6 | Mac mini | Apple初の2nmプロセス採用チップ |
+| M5 Pro | Mac mini | Mac miniの上位構成 |
+| M5 Max | Mac Studio | Mac Studioの標準構成 |
+| M5 Ultra | Mac Studio | Apple silicon史上最高性能 |
+
+数字だけを見るとM6のほうが新しく、Mac Studioが型落ちチップを積んでいるように読める。実態としてはM6が「日常用途とオンデバイスAIのバランスを取る2nmチップ」、M5 Ultraは「4つのダイを束ねた最大構成」という別ベクトルの製品で、絶対性能ではM5 UltraがM6を大きく上回る。命名がプロセスルールの世代と性能序列で一致していないため、型番の数字だけで比較すると判断を誤る。
+
+## M5 MaxとM5 Ultraの基本スペック
+
+| 項目 | M5 Max | M5 Ultra |
+|---|---|---|
+| CPU | 18コア（super 6＋performance 12） | 最大36コア（super 12＋performance 24） |
+| GPU | 最大40コア | 最大80コア |
+| 統合メモリ | 最大128GB | 最大512GB |
+| メモリ帯域 | 最大614GB/s | 1.2TB/s |
+| Neural Engine | 搭載 | 32コア |
+| Media Engine | 標準 | エンコード／デコードブロックがM5 Maxの2倍 |
+| 日本価格 | 419,800円から | 949,800円から |
+
+M5 Ultraは、2つのM5 Maxを次世代UltraFusionで接続してクアッドダイ構成を作っている。M系SoCでクアッドダイが採用されるのは今回が初となる。ダイ間帯域は4.4TB/s超、接続密度は6倍超とされ、4つのダイが単一プロセッサとして振る舞う。
+
+Apple公表値では、M5 UltraのAI演算性能はM3 Ultra比で最大4.3倍、M1 Ultra比で9.8倍。M5 Max側も前世代比で最大3.9倍とされる。いずれもApple自身が2026年7月に実施したテストに基づく数値であり、比較対象の構成が固定されている点は読み取っておきたい。
+
+<AmazonSearchLink searchQuery="Mac Studio M5 Ultra" fallbackTitle="Mac Studio M5 Ultra をAmazonで探す" />
+
+## GPU各コアのNeural AcceleratorがUltraに初搭載
+
+今回の変更で実務に効きやすいのは、GPUの各コアにNeural Acceleratorが載った点になる。行列積の処理が高速化され、LLMのプロンプト処理が伸びる構造にあたる。Ultraクラスのチップにこれが載るのは初めてで、M5 Ultraの4.3倍という数字の主因もここにある。
+
+グラフィックス側は第3世代のハードウェアレイトレーシング、第2世代Dynamic Caching、ハードウェアアクセラレーテッドなメッシュシェーディングを備え、M3 Ultra比で最大1.8倍の描画性能とされる。
+
+Media EngineはH.264・HEVC・ProRes・AV1のデコードに対応し、M5 Ultra構成では8K ProRes 422を30fpsで最大33ストリーム同時再生できるとされている。
+
+## Thunderbolt 5クラスタリングという選択肢
+
+据え置き機として見たときに目を引くのが、Thunderbolt 5とRDMA（リモートダイレクトメモリアクセス）を使った複数台クラスタリングへの対応となる。
+
+Thunderbolt 5は最大120Gb/sの帯域を持ち、Mac Studioは最大6ポートを備える。複数台を接続するとシステムをまたいだ共有メモリプールが形成され、4台構成では単体比で最大3倍のAI推論性能が得られるとされる。オープンウェイトの大規模モデルを、クラウドに投げずに手元で回す構成が現実的な選択肢に入ってくる。
+
+ネットワーク面では、Apple設計のN1チップによってWi-Fi 7とBluetooth 6にMac Studioとして初めて対応した。据え置き機なので有線が基本になるとはいえ、周辺機器側の世代が上がったときに本体がボトルネックにならない点は長期運用で効いてくる。
+
+ストレージは次世代SSDアーキテクチャの採用で読み書きが最大2倍高速化されている。数百GB級のモデルファイルをロードする用途では、この差がそのまま待ち時間に出る。
+
+## エンジニア視点で見るとどこが判断軸か
+
+コスト面での見方は「クラウド推論の従量課金をどこまで置き換えられるか」に集約される。512GBの統合メモリと1.2TB/sの帯域があれば、数千億パラメータ級のモデルをローカルに載せてトークン数を気にせず回せる構成になる。949,800円という価格は、API課金が月あたり数万円規模で継続するチームであれば償却の計算が成り立つレンジにあたる。
+
+環境構築の観点では、Thunderbolt 5ポートの使い道が競合しやすい。最大6ポートのうち、ディスプレイ・外部ストレージ・PCIe拡張シャーシ・クラスタ接続をどう割り振るかは事前に設計しておきたいところとなる。ディスプレイは最大8台、Studio Display XDRであれば5K/120Hzで4台まで接続できる。[Studio Display XDRのスペック](/gadget/studio-display-xdr/)と合わせて構成を検討する形になる。
+
+映像制作の現場向けには、USB-C経由のgenlockに対応した点も追加されている。iPhone 17 Proのようなプロ用カメラ入力とディスプレイの同期が取れる。
+
+## 気になる点
+
+M5 Ultra構成の949,800円は、個人が単独で判断するには重い価格帯となる。加えて512GBメモリ構成の出荷は10月下旬で、9月22日の発売日にすべての構成が揃うわけではない。
+
+M5 Maxの統合メモリ上限が128GBである点も、選択の分かれ目になる。ローカルLLMを主目的にするなら128GBと512GBの差は用途を分けるレベルで、価格差53万円をどう見るかという判断が先に来る。
+
+性能の倍率はいずれもApple自社テストによる公表値で、比較元はM1世代やM3 Ultraに設定されている。M4 Max搭載の前世代Mac Studioからの乗り換えを検討する場合、この数値をそのまま当てはめると差を過大に見積もることになる。
+
+命名についても、同日にM6が発表されている以上、店頭やレビュー記事で世代の前後関係が誤って伝わる余地は残る。購入時は「Mac Studio＝M5 Max／M5 Ultra」「Mac mini＝M6／M5 Pro」の対応を確認しておきたい。
+
+## まとめ
+
+新型Mac Studioは、GPU各コアへのNeural Accelerator搭載と最大512GBの統合メモリによって、ローカルでのAI推論に軸足を移した構成となった。M5 Maxモデルが419,800円から据え置かれた一方、M5 Ultraモデルは949,800円からとなる。
+
+M6という数字の大きいチップが同日にMac miniへ載ったことで世代の読み違えが起きやすいが、Mac Studio側のM5 Ultraが現時点でApple silicon最高性能にあたる。用途がローカルLLMの常用にあるならメモリ容量から、映像制作にあるならMedia Engineとポート構成から逆算するのが判断の順序となる。
+
+**公式情報**
+
+- [Apple Newsroom：Apple introduces new Mac Studio with M5 Max and M5 Ultra](https://www.apple.com/newsroom/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/)
+- [Apple Newsroom：Apple introduces M6 and M5 Ultra for a big leap in performance and AI compute](https://www.apple.com/newsroom/2026/08/apple-introduces-m6-and-m5-ultra-for-a-big-leap-in-performance-and-ai-compute/)
+- [Apple：Mac Studio 製品ページ](https://www.apple.com/mac-studio/)

@@ -1,0 +1,43 @@
+# 新規記事を X (Twitter) に自動投稿
+# deploy.yml とは独立させ、投稿失敗がデプロイに影響しないようにする
+name: Post to X
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/content/posts/**/*.mdx'
+
+  workflow_dispatch:       # 手動実行も可能
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    name: 新規記事をXに投稿
+    runs-on: ubuntu-latest
+
+    steps:
+      # 直前コミットとの差分を取るため fetch-depth: 2
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests requests-oauthlib
+
+      - name: Post new articles to X
+        env:
+          X_CONSUMER_KEY: ${{ secrets.X_CONSUMER_KEY }}
+          X_CONSUMER_SECRET: ${{ secrets.X_CONSUMER_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: python3 scripts/post-to-x.py

@@ -1,15 +1,24 @@
 # 新規記事を X (Twitter) に自動投稿
 # deploy.yml とは独立させ、投稿失敗がデプロイに影響しないようにする
+#
+# ⚠️ 2026-08-28 自動起動を停止中
+#   X API の無料枠が書き込み非対応になり、POST /2/tweets が
+#   402 credits depleted で失敗するため（Pay Per Use への課金が必要）。
+#   コードとスクリプトはそのまま温存し、push トリガーだけ外している。
+#   通常の新規記事通知は notify-new-post.yml（GitHub Issue）が担当する。
+#
+#   再開する場合：X の課金を通したうえで、下の push: ブロックの
+#   コメントアウトを解除すれば元の挙動に戻る。
 name: Post to X
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'src/content/posts/**/*.mdx'
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'src/content/posts/**/*.mdx'
 
-  workflow_dispatch:       # 手動実行も可能
+  workflow_dispatch:       # 手動実行のみ（課金復帰時の動作確認用）
 
 permissions:
   contents: read

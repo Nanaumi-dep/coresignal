@@ -1,0 +1,69 @@
+# 新規記事の X 投稿文を GitHub Issue として通知する
+#
+# X API の無料枠が書き込み非対応になったため、自動投稿（post-to-x.yml）は停止中。
+# 代わりに投稿文を Issue に書き出し、手元でコピペして投稿する運用にしている。
+# Issue は assignee 付きで作られるので、GitHub からメール／モバイル通知が飛ぶ。
+#
+# deploy.yml とは独立させ、Issue 作成の失敗がデプロイに影響しないようにする。
+name: Notify new post
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/content/posts/**/*.mdx'
+
+  # 手動実行。取りこぼした記事を後から Issue 化するときに使う。
+  #   paths を指定すれば任意の記事を対象にできる（スペース区切り）
+  #   空欄なら直前 push の差分を見る
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: '対象記事のパス（スペース区切り／空欄なら直前pushの差分）'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  notify:
+    name: 投稿文を Issue に書き出す
+    runs-on: ubuntu-latest
+
+    steps:
+      # push に複数コミットが含まれても拾えるよう全履歴を取る
+      # （HEAD~1 固定だと 2 コミット目以降の記事を取りこぼす）
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 投稿文の組み立ては post-to-x.py を import して再利用するため、
+      # そちらの依存もここで入れておく
+      - name: Install dependencies
+        run: pip install requests requests-oauthlib
+
+      - name: Create issue for new articles
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_ASSIGNEE: ${{ github.repository_owner }}
+          # ${{ }} を run: に直接展開するとスクリプトインジェクションの経路になるため、
+          # 外部入力は必ず env 経由でシェル変数として受け取る
+          INPUT_PATHS: ${{ github.event.inputs.paths }}
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [ -n "$INPUT_PATHS" ]; then
+            python3 scripts/notify-new-post.py --paths $INPUT_PATHS
+          else
+            python3 scripts/notify-new-post.py --base "$BEFORE_SHA" --head "$HEAD_SHA"
+          fi

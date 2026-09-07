@@ -101,11 +101,28 @@ const relatedPosts = allPosts
     )}
 
     {/* アイキャッチ */}
-    <img
-      src={post.data.eyecatch}
-      alt={`${post.data.title}のアイキャッチ画像`}
-      class="w-full rounded-xl mb-8"
-    />
+    <figure class="mb-8">
+      <img
+        src={post.data.eyecatch}
+        alt={`${post.data.title}のアイキャッチ画像`}
+        class="w-full rounded-xl"
+      />
+      {/* 出所明示：メーカー公式素材等の第三者提供画像を使った場合のみ表示（著作権法48条対応）。
+          自作グラフィックの記事では imageSource 未指定なので何も出ない */}
+      {post.data.imageSource && (
+        <figcaption class="text-xs mt-2" style="color: var(--color-text-muted);">
+          画像：{post.data.imageSourceUrl ? (
+            <a
+              href={post.data.imageSourceUrl}
+              rel="noopener"
+              target="_blank"
+              class="underline"
+              style="color: var(--color-text-muted);"
+            >{post.data.imageSource}</a>
+          ) : post.data.imageSource}{post.data.imageSourceDate ? `（${post.data.imageSourceDate}）` : ''}より
+        </figcaption>
+      )}
+    </figure>
 
     {/* 目次 */}
     {toc.length > 0 && (

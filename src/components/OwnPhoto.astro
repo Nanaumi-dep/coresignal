@@ -1,0 +1,41 @@
+---
+/**
+ * OwnPhoto — 自前撮影素材の掲載コンポーネント（2026-09-13 新設）
+ *
+ * CoreSignal が自分で所有する現物を、自分で撮影した写真を記事内で使うときに必ずこれを使う。
+ * CitedImage（第三者素材の引用）とは法的な立て付けが違うので、コンポーネントを分ける。
+ *
+ *  - CitedImage : 他者の著作物を複製・公衆送信する → 著作権法48条の出所明示が要件
+ *  - OwnPhoto   : 自分で撮影した写真＝自社が著作権を持つ → 出所明示は不要。
+ *                 代わりに「撮影：CoreSignal」と撮影日を出して一次情報であることを示す
+ *
+ * 撮影日を必ず入れる理由：券面デザインや製品仕様は改定される。いつ時点の現物かが
+ * わからない写真は、数年後に誤情報として機能してしまう。
+ *
+ * ⚠️ 被写体に第三者の意匠・ロゴが写り込む場合（クレジットカードの券面など）は、
+ *    現物の記録的撮影の範囲に留めること。券面デザインを主題化した加工・合成はしない。
+ * ⚠️ カード番号・氏名・有効期限・セキュリティコードが写った写真は使わない（writer/SKILL.md 個人情報ルール）。
+ *
+ * 使用例（MDX）:
+ * import OwnPhoto from '../../../components/OwnPhoto.astro';
+ * <OwnPhoto
+ *   src="/images/posts/jcb-mikage-compare.webp"
+ *   alt="JCBプラチナ 御影と通常券面を並べた様子"
+ *   caption="左が御影、右が通常デザイン"
+ *   shotDate="2026年4月17日"
+ * />
+ */
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  shotDate?: string;
+}
+const { src, alt, caption, shotDate } = Astro.props;
+---
+<figure class="my-6">
+  <img src={src} alt={alt} class="w-full rounded-xl" loading="lazy" />
+  <figcaption class="text-xs mt-2" style="color: var(--color-text-muted);">
+    {caption ? `${caption}／` : ''}撮影：CoreSignal{shotDate ? `（${shotDate}）` : ''}
+  </figcaption>
+</figure>

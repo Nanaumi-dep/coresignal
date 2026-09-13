@@ -122,6 +122,13 @@ const relatedPosts = allPosts
           ) : post.data.imageSource}{post.data.imageSourceDate ? `（${post.data.imageSourceDate}）` : ''}より
         </figcaption>
       )}
+      {/* 自前撮影素材：CoreSignal が現物を撮影した写真。出所明示ではなく一次情報であることの明示。
+          imageSource とは併用しない（2026-09-13 新設） */}
+      {!post.data.imageSource && post.data.ownPhoto && (
+        <figcaption class="text-xs mt-2" style="color: var(--color-text-muted);">
+          撮影：CoreSignal{post.data.ownPhotoDate ? `（${post.data.ownPhotoDate}）` : ''}
+        </figcaption>
+      )}
     </figure>
 
     {/* 目次 */}

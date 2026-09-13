@@ -16,6 +16,11 @@ const posts = defineCollection({
     imageSource: z.string().optional(),
     imageSourceUrl: z.string().optional(),
     imageSourceDate: z.string().optional(),
+    // eyecatch が CoreSignal 自前撮影の写真である場合。撮影者は CoreSignal なので
+    // 著作権法48条の出所明示は不要だが、いつ時点の現物かを示すため撮影日を出す。
+    // imageSource（第三者素材）とは併用しない。
+    ownPhoto: z.boolean().optional(),
+    ownPhotoDate: z.string().optional(),
     affiliate: z.boolean().default(false),
     brand: z.string().optional(),
     productName: z.string().optional(),

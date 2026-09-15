@@ -1,0 +1,95 @@
+---
+title: "WD_BLACKはSANDISK Optimusに変わった｜SN8100・SN7100の型番対応と3ティアの違いを整理した"
+description: "サンディスクがWD_BLACKとWD Blueの内蔵SSDをSANDISK Optimusへ統合した。GX PRO・GX・無印の3ティアが旧どのブランドに対応するのか、SN8100やSN7100の型番の引き継ぎ方、DRAM有無やセキュリティ機能の差まで公式データシートから整理した。"
+date: "2026-09-16T06:00"
+category: "gadget"
+tags: ["SanDisk", "SSD", "NVMe", "WD_BLACK", "自作PC"]
+eyecatch: "/images/posts/sandisk-optimus.webp"
+imageSource: "Sandisk ニュースリリース"
+imageSourceUrl: "https://www.sandisk.com/company/newsroom/press-releases/2026/2026-01-05-sandisk-unveils-sandisk-optimus-ssd-product-brand"
+imageSourceDate: "2026年1月5日"
+affiliate: true
+brand: "SanDisk"
+productName: "SANDISK Optimus"
+---
+
+import AmazonCard from '../../../components/AmazonCard.astro';
+
+自作PCやPS5の換装でSSDを探すとき、これまでは「WD_BLACK なら速い方、WD Blue なら価格重視」という覚え方が通用した。その目印が2026年に消えている。
+
+サンディスクは2026年1月5日、CES 2026 に合わせて内蔵SSDの製品ブランドを **SANDISK Optimus** に統合すると発表した。対象は WD_BLACK と WD Blue の両方で、現在は SANDISK Optimus / SANDISK Optimus GX / SANDISK Optimus GX PRO の3系統に再編されている。パッケージと製品デザインも刷新され、2026年上半期から順次リテールに並ぶとされていた流れが、国内のオンラインストアでも確認できる段階になった。
+
+名前が変わっただけで中身が同じなのか、それとも世代交代を伴うのか。型番の対応関係から整理する。
+
+## ブランド統合の全体像
+
+公式発表で示された3系統の位置づけは以下のとおり。
+
+| 新ブランド | 旧ブランド | 代表として挙げられた製品 | 想定ユーザー |
+|---|---|---|---|
+| SANDISK Optimus | WD Blue | WD Blue SN5100 | 速度と価格のバランス重視 |
+| SANDISK Optimus GX | WD_BLACK | WD_BLACK SN7100 | ゲーミング・携帯機 |
+| SANDISK Optimus GX PRO | WD_BLACK | WD_BLACK SN8100 | ワークステーション・AI PC |
+
+注目すべきは、**WD_BLACK が1つではなく2つに割れた**点である。従来の WD_BLACK は SN770 のような普及帯から SN8100 のフラッグシップまでを1ブランドで抱えていたため、型番の数字を覚えていないと性能帯が判別できなかった。新体系では PRO の有無が PCIe 世代のおおよその目安になる。
+
+<AmazonCard asin="B0GHYGLNTT" fallbackTitle="SANDISK Optimus GX PRO 8100 1TB をAmazonで見る" />
+
+## 3ティアの中身を公式データシートで比べる
+
+各ティアの代表モデルを、メーカー公式データシートの数値で並べる。
+
+| 項目 | Optimus GX PRO 8100 | Optimus GX PRO 850X | Optimus GX 7100 |
+|---|---|---|---|
+| インターフェース | PCIe 5.0 x4 / NVMe 2.0 | PCIe 4.0 x4 / NVMe 1.4 | PCIe 4.0 x4 / NVMe 2.0 |
+| 容量 | 1TB〜8TB | 1TB〜8TB | 500GB〜4TB |
+| 最大シーケンシャル読み出し | 14,900MB/s | 7,300MB/s | 7,250MB/s |
+| 最大シーケンシャル書き込み | 14,000MB/s | 6,600MB/s | 6,900MB/s |
+| 最大ランダム読み出し | 2.3M IOPS | 1.2M IOPS | 1M IOPS |
+| 最大ランダム書き込み | 2.4M IOPS | 1.2M IOPS | 1.4M IOPS |
+| DRAMキャッシュ | あり | あり | Host Memory Buffer |
+| NAND | 第8世代 BiCS TLC 3D CBA | BiCS TLC 3D | 第8世代 BiCS TLC 3D CBA |
+| 最大TBW | 4,800（8TB） | 4,800（8TB） | 2,400（4TB） |
+| セキュリティ | TCG Opal 2.02 | TCG Opal 2.01 | TCG Pyrite 2.01 |
+| 平均電力（読み出し） | 6.2〜7.1W | 7.2〜8.0W | 3.4〜4.1W |
+| 保証 | 5年 | 5年 | 5年 |
+
+※速度はいずれも容量によって値が変わる。GX PRO 8100 のシーケンシャル書き込みは1TBモデルが11,000MB/s、8TBモデルが13,200MB/s。GX 7100 の500GBモデルは読み出し6,800MB/s。
+
+同じ GX PRO でも 8100 と 850X では世代が違う。850X はヒートシンク搭載モデルが PS5・PS5 Pro に対応し、PS5 専用ヒートシンクを備えた 850P も別途用意されている。旧 WD_BLACK SN850X の後継にあたる位置づけで、[WD_BLACK SN850X の容量別ラインナップ](/gadget/wd-black-sn850x/)から続く系譜として読むと分かりやすい。
+
+## 電力効率の差がPCIe 5.0の見どころになっている
+
+PCIe 5.0 対応SSDは発熱が話題になりやすいが、GX PRO 8100 のデータシートには **同社 PCIe 4.0 世代（GX PRO 850X）の2倍を超える電力効率**という記載がある。実際、公称の平均消費電力は読み出し時で 850X の 7.2〜8.0W に対し 8100 が 6.2〜7.1W と、速度が2倍になりながら下回っている。
+
+厚みも 8100 の1TB〜4TBモデルは 2.38mm、重量7.5gで、ヒートシンクなしの素の基板としてはノートPCの M.2 スロットにも収まる寸法である。8TBモデルのみ両面実装で 3.88mm になる。
+
+<AmazonCard asin="B0GK1M1N4V" fallbackTitle="SANDISK Optimus GX 7100 1TB をAmazonで見る" />
+
+## エンジニア視点で見るとどう使えるか
+
+**DRAMの有無で用途が分かれる。** GX 7100 は DRAM キャッシュを積まず Host Memory Buffer（HMB）でホスト側のメインメモリを借りる設計になっている。連続した大容量書き込みやランダムアクセスが持続する用途では DRAM 搭載の GX PRO が有利で、逆にゲームのロードや通常のアプリ起動が主体なら HMB でも体感差は出にくい。搭載メモリが少ない携帯ゲーム機やミニPCに入れる場合は、HMB がホストのRAMを消費する点を頭に入れておきたい。
+
+**セキュリティ機能の表記が3モデルで違う。** GX PRO 側は TCG Opal 2.0x に対応し、データシートにも保存データ暗号化への言及がある。一方 GX 7100 は TCG Pyrite 2.01 と NVMe 経由の ATA Security パススルーで、暗号化ではなくアクセス制御の枠組みである。BitLocker のハードウェア暗号化や、社用端末の要件で Opal を求められる環境では、この1行が選定条件になる。
+
+**電力は実運用の温度に直結する。** ノートPCや小型ケースでは、公称速度よりも平均消費電力のほうが効いてくる。GX 7100 の読み出し 3.4〜4.1W は GX PRO 8100 の約半分で、冷却機構が貧弱な筐体ほど差が出る。速度の上限を使い切れない環境に PCIe 5.0 を入れる意味は薄い。
+
+接続規格ごとの上限の考え方は[SSDの選び方](/gadget/ssd-guide/)にまとめている。DRAMレス設計の評価軸については[Samsung 990 SSD](/gadget/samsung-990-ssd/)でも同じ論点を扱った。
+
+## 気になる点
+
+**型番の可読性は上がっていない。** ティアは3つに整理されたが、末尾の数字（8100 / 850X / 7100）は旧 WD_BLACK の型番をほぼそのまま引き継いでいる。GX PRO の中に PCIe 5.0 の 8100 と PCIe 4.0 の 850X が同居しているため、「GX PRO なら Gen5」という読み方は成立しない。結局は型番を見る必要がある。
+
+**移行期の在庫が混在する。** WD_BLACK 表記の SN8100 / SN7100 / SN850X は流通在庫として残り、中身が同等でもパッケージが異なる状態がしばらく続く。価格が下がるのは旧パッケージ側になりやすいため、保証年数（いずれも5年）と TBW が同じであれば旧表記を選ぶ判断もあり得る。
+
+**850X のみ NAND 世代が異なる。** GX PRO 8100 と GX 7100 は第8世代 BiCS TLC 3D CBA NAND を採用しているのに対し、850X のデータシートには CBA の記載がない。PCIe 4.0 帯で長く使う前提なら、同じ GX PRO でも世代差がある点は確認しておきたい。
+
+## まとめ
+
+SANDISK Optimus への統合は、ブランド名の付け替えであると同時に、WD_BLACK が抱えていた性能帯の幅を GX と GX PRO に分割する整理でもある。選ぶ側の判断軸は変わっていない。
+
+- PCIe 5.0 のマザーボードがあり、AI処理や大容量の書き出しを回す → GX PRO 8100
+- PS5・PS5 Pro の増設、または PCIe 4.0 環境で DRAM 搭載を確保したい → GX PRO 850X / 850P
+- ノートPCや携帯機で発熱と消費電力を抑えたい → GX 7100
+
+数値の出どころはすべて公式データシートである。購入前には搭載先の環境が PCIe のどの世代で動くかを確認したうえで、速度の上限ではなく消費電力と TBW を先に見る順番が、3年使う前提では合理的である。

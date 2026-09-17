@@ -2373,18 +2373,18 @@
     "updatedAt": "2026-09-15T11:07:07.170Z"
   },
   "B0GHYGLNTT": {
-    "title": "SANDISK 1TB Optimus GX PRO 8100 PCIe 5.0 NVMe SSD - M.2 2280 - SDSP82100TAN",
-    "price": "",
-    "imageUrl": "",
+    "title": "【Amazon.co.jp限定】 SANDISK Optimus GX Pro 8100 NVMe 1TB M2 SDSP82100TAN-000E0 内蔵SSD",
+    "price": "￥56,189",
+    "imageUrl": "https://m.media-amazon.com/images/I/31DPziY+iRL._SL500_.jpg",
     "detailUrl": "https://www.amazon.co.jp/dp/B0GHYGLNTT?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
-    "updatedAt": "2026-09-15T21:06:08.049193Z"
+    "updatedAt": "2026-09-17T11:10:31.095Z"
   },
   "B0GK1M1N4V": {
-    "title": "SANDISK 1TB Optimus GX 7100 NVMe SSD - PCIe Gen 4 M.2 2280 - SDSP71100TAN",
-    "price": "",
-    "imageUrl": "",
+    "title": "【Amazon.co.jp限定】 SANDISK Optimus GX 7100 NVMe 1TB M2 SDSP71100TAN-000E0 内蔵SSD",
+    "price": "￥43,168",
+    "imageUrl": "https://m.media-amazon.com/images/I/31R7WwW8e7L._SL500_.jpg",
     "detailUrl": "https://www.amazon.co.jp/dp/B0GK1M1N4V?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
-    "updatedAt": "2026-09-15T21:06:08.049193Z"
+    "updatedAt": "2026-09-17T11:10:32.226Z"
   },
   "B0HF52WXLG": {
     "title": "Bose TV Speaker (第2世代) コンパクトサイズ サウンドバー Bluetooth HDMI ARC接続対応 クリアなセリフ Dolby Atmos対応 深みのある低音 簡単セットアップ リモコン付属 ブラック",
@@ -2420,5 +2420,26 @@
     "imageUrl": "https://m.media-amazon.com/images/I/21CXTUtJCcL._SL500_.jpg",
     "detailUrl": "https://www.amazon.co.jp/dp/B0CJX3TWB7?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
     "updatedAt": "2026-09-16T11:07:42.376Z"
+  },
+  "B0H1H2N21M": {
+    "title": "パナソニック 55V型 4K有機ELテレビ TV-55Z95C プライマリーRGBタンデム」・パネル空冷技術「サーマルフロー」搭載 ラインアレイスピーカー・イネーブルドスピーカー・ワイドスピーカー搭載「360立体音響サウンドシステム+」 Fire TV搭載 プレミアムモデル",
+    "price": "￥445,500",
+    "imageUrl": "https://m.media-amazon.com/images/I/51Qq+Al50wL._SL500_.jpg",
+    "detailUrl": "https://www.amazon.co.jp/dp/B0H1H2N21M?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
+    "updatedAt": "2026-09-17T11:10:33.238Z"
+  },
+  "B0H2B1WZR8": {
+    "title": "ソニー 65インチ 4K 液晶 RGB Mini LED テレビ ブラビア K-65XR90M2 BRAVIA XR 倍速 Google TV 4K/120fps対応 10畳以上推奨",
+    "price": "￥549,790",
+    "imageUrl": "https://m.media-amazon.com/images/I/413yxTmGhaL._SL500_.jpg",
+    "detailUrl": "https://www.amazon.co.jp/dp/B0H2B1WZR8?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
+    "updatedAt": "2026-09-17T11:10:34.386Z"
+  },
+  "B0H1H5SNSS": {
+    "title": "パナソニック 55V型 液晶 テレビ 4K TV-55W95C VIERA FireTV搭載 Mini LED 液晶ハイグレードモデル",
+    "price": "￥230,000",
+    "imageUrl": "https://m.media-amazon.com/images/I/41SNErlg5QL._SL500_.jpg",
+    "detailUrl": "https://www.amazon.co.jp/dp/B0H1H5SNSS?tag=coresignal-web-22&linkCode=ogi&th=1&psc=1&language=ja_JP",
+    "updatedAt": "2026-09-17T11:10:35.446Z"
   }
 }

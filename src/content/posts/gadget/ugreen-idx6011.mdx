@@ -1,0 +1,112 @@
+---
+title: "UGREEN iDX6011はNASにAI処理を載せた｜3モデルの差と10GbE×2・Thunderbolt 4の条件を整理した"
+description: "UGREENが6ベイNAS「iDX6011」シリーズを2026年9月15日に国内展開した。Core Ultra 5 125Hと最大33 TOPSのAI処理、10GbE×2とThunderbolt 4×2を備える3モデルの違いと、公称2,500MB/sを引き出すために必要な環境条件を公式仕様から整理する。"
+date: "2026-09-19T06:00"
+category: "gadget"
+tags: ["UGREEN", "NAS", "ローカルAI", "10GbE", "Thunderbolt 4"]
+eyecatch: "/images/posts/ugreen-idx6011.webp"
+imageSource: "UGREEN NAS 公式製品ページ（iDX6011 32GB 6-Bay AI NAS）"
+imageSourceUrl: "https://ai.ugreen.com/products/ugreen-idx6011-32gb-ai-nas"
+imageSourceDate: "2026年9月19日"
+affiliate: true
+brand: "UGREEN"
+productName: "UGREEN AI NAS iDX6011シリーズ"
+---
+
+import AmazonCard from '../../../components/AmazonCard.astro';
+import CitedImage from '../../../components/CitedImage.astro';
+
+UGREENが6ベイNASの新シリーズ「iDX6011」を2026年9月15日に国内展開した。同社のNASは[NASync GTシリーズ](/gadget/ugreen-nas-gt/)まで「10GbEを手の届く価格で載せる」路線だったが、iDX6011はそこにIntel Core Ultraを組み合わせ、NAS本体でAI処理を完結させることを前面に出している。
+
+構成は32GB・64GB・Proの3モデル。ディスクレスで想定販売価格399,880円からという価格帯は、これまでのUGREEN NASとは別の層を狙ったものと読み取れる。公式仕様をもとに、3モデルの差と、この性能を活かすために手元に必要な条件を整理する。
+
+## 3モデルのスペック比較
+
+CPUとメモリ以外の構成は3モデルで共通している。差がつくのはこの2点だけである。
+
+| 項目 | iDX6011 32GB | iDX6011 64GB | iDX6011 Pro |
+|---|---|---|---|
+| CPU | Core Ultra 5 125H | Core Ultra 5 125H | Core Ultra 7 255H |
+| コア／スレッド | 14コア18スレッド | 14コア18スレッド | 16コア16スレッド |
+| メモリ | 32GB LPDDR5X | 64GB LPDDR5X | 64GB LPDDR5X |
+| メモリ増設 | 不可 | 不可 | 不可 |
+| 想定販売価格（税込） | 399,880円 | 499,880円 | 899,880円 |
+
+価格は公式ストアの表示（2026年9月19日時点）で、いずれもHDD・SSDは別途必要になる。公式ストアでは3モデルとも予約販売として扱われている。
+
+<AmazonCard asin="B0FNDFH2LH" fallbackTitle="UGREEN AI NAS iDX6011 をAmazonで見る" />
+
+共通仕様は次のとおり。
+
+| 項目 | 仕様 |
+|---|---|
+| ドライブベイ | 3.5インチSATA×6＋M.2 NVMe×2 |
+| 最大容量 | 208TB（32TB×6＋8TB×2） |
+| システムディスク | 128GB SSD内蔵 |
+| RAID | JBOD／Basic／0／1／5／6／10 |
+| LAN | 10GbE×2 |
+| Thunderbolt 4 | 2ポート（40Gbps） |
+| 拡張スロット | PCIe Gen4 x8×1 |
+| 映像出力 | HDMI（8K対応） |
+| カードスロット | SD 4.0 |
+| OS | UGOS Pro |
+| 本体サイズ | 348.8×260×212mm |
+| 消費電力 | 43.07W（ドライブアクセス時）／24.91W（休止時） |
+
+## 最大33 TOPSという数字が何を指すか
+
+UGREENが公表しているAI性能は最大33 TOPS。Core Ultra 5 125Hが持つCPU・内蔵GPU・NPUを合わせた値で、この処理をNAS本体の中で回すことが「AI NAS」という呼び方の根拠になっている。
+
+<CitedImage
+  src="/images/posts/ugreen-idx6011-spec.webp"
+  alt="iDX6011 32GBのCPU・メモリ・10GbE・Thunderbolt 4の構成図"
+  sourceName="UGREEN NAS 公式製品ページ（iDX6011 32GB 6-Bay AI NAS）"
+  sourceUrl="https://ai.ugreen.com/products/ugreen-idx6011-32gb-ai-nas"
+  sourceDate="2026年9月19日"
+/>
+
+公式が挙げている用途は、ローカル処理の全文検索と、AIアシスタント「Uliya」によるファイル内容の応答、写真の意味検索・OCR・音声の文字起こしといったあたりになる。これらは従来もクラウドサービス側で提供されてきた機能で、iDX6011の主張は機能そのものの新しさではなく、**処理をどこで行うか**にある。
+
+この観点はNAS選びの判断軸として効く。NASを置く動機の相当部分は「手元にデータを置きたい」であり、そこに写真や書類をクラウドAPIへ投げる仕組みを足すと、置き場所をNASにした意味が薄れる。仕様上、iDX6011はクラウドLLMへの接続も選べる構成になっているため、どちらで処理させるかは導入時の設定で決まる。NASに載せたAIが常にローカル完結するわけではない、という点は確認しておく必要がある。
+
+## 10GbE×2とThunderbolt 4×2をどう使い分けるか
+
+10GbEポートが2つあり、リンクアグリゲーションで20Gbps帯域として扱える。UGREENはこの構成で最大2,500MB/sとしている。
+
+ただしこの数字の読み方には注意がいる。リンクアグリゲーションは1本のセッションを2本に分散する仕組みではないため、**単一クライアントから見た上限は10GbE 1本分**にとどまる。2,500MB/sが効くのは、複数台が同時にアクセスする状況である。1人で使うなら10GbEポートは1本で足り、2本目はスイッチ側の冗長化やセグメント分離に回すほうが現実的と整理できる。
+
+Thunderbolt 4×2はこの制約を回避する経路になる。40GbpsでNASとPCを直結できるため、10GbEスイッチを用意しなくても単一クライアントで10GbE以上の帯域が出せる。編集作業でNAS上のファイルを直接触る用途なら、ネットワーク経由よりこちらが素直である。
+
+一方で、帯域を用意してもドライブ側が追いつかなければ意味がない。SATA HDDは1台あたり実効200MB/s前後で、RAID 5を組んでも10GbEを埋め切るのは容易ではない。M.2 NVMeスロット2基をキャッシュまたは独立プールとしてどう使うかが、実効速度を決める分かれ目になる。ドライブ選定は[NASの選び方](/gadget/nas-guide/)と[SanDiskのNAS専用SSD](/gadget/sandisk-nas-ssd/)で整理した観点がそのまま使える。
+
+<AmazonCard asin="B0FNDFH2LH" fallbackTitle="UGREEN AI NAS iDX6011 をAmazonで見る" />
+
+## 導入前に確認しておく環境条件
+
+10GbEを前提にした機材は、本体だけ用意しても速度が出ない。iDX6011で必要になる周辺条件は次の3点に整理できる。
+
+1. **10GbE対応スイッチ**：家庭用の1GbEスイッチに繋いだ場合、10GbEポートは1GbEで動作する。[スイッチングハブの選び方](/gadget/switch-hub-guide/)で触れたとおり、10GbE対応機は発熱と価格の両面で1GbE機と別物になる
+2. **クライアント側の10GbE**：PC側にも10GbE NICが必要になる。ここを用意しないなら、Thunderbolt 4直結を前提に構成を考えたほうがコストは合う
+3. **設置場所と電源**：348.8×260×212mmは6ベイ機として標準的だが、デスク上に置くサイズではない。ドライブアクセス時43.07Wは24時間365日で約377kWh、31円/kWhとして年間約1万1,700円の電気代に相当する（ドライブ分は別途）
+
+## 気になる点
+
+**メモリを増設できない**。3モデルとも LPDDR5X のオンボード実装で、公式仕様の「Expandable RAM」は空欄になっている。仮想マシンやコンテナを増やしていく使い方では、購入時の選択がそのまま上限になる。32GBと64GBの価格差10万円をどう見るかは、3年後に何を動かしているかの想定次第と言える。
+
+**価格帯が大きく上がった**。DXPシリーズやGTシリーズが10万円前後から選べたのに対し、iDX6011は40万円からでドライブは別。ローカルAIと10GbE×2・Thunderbolt 4×2をまとめて要求する構成でなければ、既存シリーズとの価格差を埋める理由は見つけにくい。
+
+**AI機能の評価は実運用を待つ必要がある**。33 TOPSという数値はハードウェアの能力であり、UGOS Pro上でどのモデルがどの速度で動くかは別の話になる。検索や文字起こしの実用度は、公開されている仕様だけでは判断できない領域である。
+
+**Proの出荷時期**。公式ストアでは3モデルとも予約販売として掲載されており、Proは他2モデルより遅れて出荷される案内になっている。導入時期が決まっている場合は確認が要る。
+
+## まとめ
+
+iDX6011は、UGREENがこれまで積み上げてきた「10GbEを載せたNAS」に、Intel Core UltraによるローカルAI処理を足した構成である。3モデルの差はCPUとメモリだけで、ストレージ構成やインターフェースは共通している。
+
+判断軸は明快で、**NASの中でAI処理を完結させたいかどうか**に尽きる。単に容量と10GbEが欲しいだけなら、GTシリーズやDXPシリーズのほうが価格は合う。逆に、写真や文書をクラウドへ出さずに検索・整理したいという要件があるなら、その要件を満たすハードウェアを1台にまとめた選択肢として位置づけられる。
+
+いずれにせよ、10GbEスイッチかThunderbolt 4直結、そしてM.2 NVMeを含むドライブ構成まで含めて計画しないと、本体性能は活きない。本体価格だけでなく、周辺を含めた総額で見る必要がある機材である。
+
+- [UGREEN NAS 公式製品ページ（iDX6011 32GB 6-Bay AI NAS）](https://ai.ugreen.com/products/ugreen-idx6011-32gb-ai-nas)
+- [UGREEN NAS 公式製品ページ（iDX6011 Pro 6-Bay AI NAS）](https://ai.ugreen.com/products/ugreen-idx6011-pro-ai-nas)
+- [UGREEN 日本公式ストア](https://store.ugreen.jp/products/ugreen-idx6011-32gb-ai-nas)

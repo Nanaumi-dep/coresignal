@@ -3,24 +3,40 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import { getCollection } from "astro:content";
 import { CATEGORIES, CATEGORY_MAP, getPostUrl } from "../lib/categories";
+import popularData from "../data/popular.json";
 
 const allPosts = await getCollection("posts");
 const sortedPosts = allPosts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-// 【今のおすすめ TOP 5】GA4/GSC データをもとに月次で手動更新推奨
-// 選定基準：PV or CTR が高い、収益源となる、季節性のあるもの
-const FEATURED_SLUGS = [
+// 【よく読まれている記事 TOP 5】
+// ビルド時に scripts/fetch-popular.mjs が GA4 の過去28日PVを取得して
+// src/data/popular.json を上書きする。取得できなかった場合（認証情報なし・API失敗）は
+// items が空のままなので、下の FALLBACK_SLUGS で表示する。
+const FALLBACK_SLUGS = [
   "creditcard/paypay-card-june-alternatives",
   "gadget/anker-prime-power-bank-300w",
   "creditcard/mileageplus-jcb-plat",
   "gadget/mac-mini-m5-wwdc",
   "gadget/pixel-10a-japan",
 ];
-const featuredPosts = FEATURED_SLUGS
-  .map((slug) => allPosts.find((p) => p.id === slug || p.id === slug + ".mdx"))
+
+const findPost = (id: string) =>
+  allPosts.find((p) => p.id === id || p.id === id + ".mdx");
+
+const popularPosts = (popularData.items ?? [])
+  .map((item) => findPost(item.id))
   .filter((p): p is NonNullable<typeof p> => p !== undefined);
+
+// 3本未満しか取れていないときは実データとして扱わない（並びが寂しくなるため）
+const usingLiveRanking = popularPosts.length >= 3;
+
+const featuredPosts = usingLiveRanking
+  ? popularPosts
+  : FALLBACK_SLUGS
+      .map(findPost)
+      .filter((p): p is NonNullable<typeof p> => p !== undefined);
 
 const featuredPost = sortedPosts[0];
 const featuredCat = featuredPost
@@ -106,13 +122,18 @@ const categoryPreview = CATEGORIES.map((cat) => ({
     </section>
   )}
 
-  {/* 【新設】今のおすすめ セクション */}
+  {/* よく読まれている記事（GA4の過去28日PV順。取得できない場合は固定リスト） */}
   {featuredPosts.length > 0 && (
     <section class="max-w-6xl mx-auto px-4 pb-12">
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-baseline justify-between mb-6 gap-3">
         <h2 class="text-lg font-bold" style="color: var(--color-text-primary);">
-          <span class="mr-1" style="color: #e94560;">|</span>今のおすすめ
+          <span class="mr-1" style="color: #e94560;">|</span>よく読まれている記事
         </h2>
+        {usingLiveRanking && (
+          <span class="text-xs shrink-0" style="color: var(--color-text-muted);">
+            過去28日のアクセス数順
+          </span>
+        )}
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {featuredPosts.map((post) => {

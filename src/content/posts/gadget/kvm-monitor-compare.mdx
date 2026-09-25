@@ -1,0 +1,75 @@
+---
+title: "モニター内蔵KVMの比較｜LG・Dell・BenQの3機種で切り替え方式と条件を整理した"
+description: "モニターにKVM機能が内蔵されていれば、外付けのKVMスイッチを別途用意しなくても2台のPCをキーボード・マウス1組で切り替えられる。LG 32U990A-S、Dell U2725QE、BenQ PD3225Uの3機種を軸に、対応するThunderbolt世代とPD給電、価格の違いを公式仕様から整理した。"
+date: "2026-09-25T20:00"
+category: "gadget"
+tags: ["モニター", "KVM", "Thunderbolt", "選び方", "デスク環境"]
+eyecatch: "/images/posts/kvm-monitor-compare.webp"
+affiliate: true
+---
+
+import AmazonCard from '../../../components/AmazonCard.astro';
+
+2台のPCを1枚のモニターで使う構成は、[KVMスイッチの選び方](/gadget/kvm-switch-guide/)で整理したとおり外付け機器を挟むのが一般的だった。近年はその機能自体をモニター側に内蔵し、外付け機器を省く構成が増えている。LG・Dell・BenQの高解像度モニターにはそれぞれKVM機能が内蔵されており、対応するThunderbolt世代・給電能力・価格が異なる。3機種を軸に条件を整理する。
+
+## 基本スペック比較
+
+| 項目 | LG 32U990A-S | Dell U2725QE | BenQ PD3225U-JP |
+|---|---|---|---|
+| 画面サイズ・解像度 | 31.5型・6K（6144×3456） | 27型・4K（3840×2160） | 31.5型・4K（3840×2160） |
+| パネル | Nano IPS Black | IPS Black | IPS |
+| 映像入力の世代 | Thunderbolt 5 | Thunderbolt 4 | Thunderbolt 3 |
+| USB-C給電（PD） | 96W | 最大140W（EPR対応） | 入力85W／出力15W |
+| KVM機能 | KVMスイッチ対応 | KVMスイッチ内蔵 | KVM Switch対応 |
+| リフレッシュレート | 60Hz | 120Hz | 非公表（4K標準域） |
+| 想定価格 | 319,000円（予想実売・LG公式発表） | 102,886円（Dell公式サイト） | 180,000円（ヨドバシ.com） |
+
+3機種ともUSB-Cまたは映像入力端子を2系統備え、片方をメインPC、もう片方をサブPCにつなぐことで、1組のキーボード・マウスを共有できる。差が出るのは対応するThunderbolt世代とPD給電の上限、それに伴う画面のサイズ・解像度の方向性になる。
+
+## LG 32U990A-S｜Thunderbolt 5と6K解像度を両立させる構成
+
+LG UltraFine evoシリーズの32U990A-Sは、31.5型で6144×3456（6K相当）の解像度を持つNano IPS Blackパネルを搭載する。映像入力にThunderbolt 5を採用し、120Gbpsの帯域と96WのPower Deliveryを1本のケーブルでまとめる。デイジーチェーン接続にも対応し、6144×3456@60Hzのまま2台目のモニターへ映像を渡せる。
+
+KVM機能は、1台目のPCをThunderbolt入力に、2台目のPCを映像入力端子（HDMI・DisplayPort）とUSBアップストリーム端子に接続する構成で成立する。2台のPCで1つの画面を共有し、キーボード・マウスの接続先を切り替えられる（LG公式プレスリリースより）。AdobeRGB 99.5%・DCI-P3 98%のカバー率と合わせて、色管理を伴う作業で高解像度と2台運用を両立させたい場合の選択肢になる。
+
+<AmazonCard asin="B0FTZC16TM" fallbackTitle="LG 32U990A-S UltraFine evo 6KモニターをAmazonで見る" />
+
+## Dell U2725QE｜Thunderbolt 4と140W給電のバランス型
+
+デル デジタル ハイエンドシリーズのU2725QEは、27型・4K・120Hzのenhanced IPS Blackパネルに、Thunderbolt 4ハブ機能を組み合わせた構成になる。USB-C給電はExtended Power Range（EPR）対応で最大140Wまで供給でき、[Thunderbolt 5ドック5機種比較](/gadget/tb5-dock-comparison/)で扱った据え置きドックに匹敵する給電能力をモニター単体で満たす。
+
+KVMスイッチを内蔵し、USB 10Gbps対応のUSB-Cアップストリームポート経由で複数デバイスの接続を切り替えられる（Dell公式サイトより）。3000:1のコントラスト比とDCI-P3・Display P3の99%カバー率を備え、6Kクラスの解像度までは求めないが120Hzの滑らかさと高い給電能力を優先する構成に向く。
+
+<AmazonCard asin="B0F4P9D1L1" fallbackTitle="Dell U2725QE デジタルハイエンドモニターをAmazonで見る" />
+
+## BenQ PD3225U-JP｜色校正とKVMを両立するThunderbolt 3構成
+
+BenQのデザイナー向けAQCOLORシリーズPD3225U-JPは、31.5型・4KのIPSパネルに、sRGB 100%・Rec.709 100%・DCI-P3 98%のカバー率とPantone Validated認証を組み合わせた色管理向けモデルになる。Thunderbolt 3入力は85WのPower Delivery付きで、出力側にも15Wの供給を持つ。KVM Switch機能を備え、USB-Cダウンストリーム1ポートとUSB 3.2ダウンストリーム3ポートで周辺機器を接続できる（BenQ公式スペックページより）。
+
+Thunderbolt世代はLG・Dellより一つ古い3だが、その分工場出荷時のキャリブレーションレポートが付属し、色校正の正確さを優先する制作系の用途に寄せた構成になっている。KVMは「複数PCを切り替えながら色を合わせる」作業と相性がよい。
+
+<AmazonCard asin="B0F3NHBN6S" fallbackTitle="BenQ PD3225U-JP デザイナーモニターをAmazonで見る" />
+
+## 用途別の選び方
+
+| 使い方 | 向いている機種 | 理由 |
+|---|---|---|
+| 6K相当の解像度と最新のThunderbolt世代を優先 | LG 32U990A-S | 6144×3456とThunderbolt 5・120Gbpsの組み合わせは3機種で唯一 |
+| ノートPC1台をモニター経由でフル充電しつつ高リフレッシュも欲しい | Dell U2725QE | 140W給電と120Hzのバランスが3機種で最も高い |
+| 色校正・印刷物のプルーフ作業でKVMも使いたい | BenQ PD3225U-JP | 工場キャリブレーションとPantone Validated認証が付く |
+
+## エンジニア視点で見るとどう使えるか
+
+外付けKVMスイッチを使う構成は、[ドッキングステーションの選び方](/gadget/dock-hub-guide/)で扱ったように機器を1台追加する分、配線とデスク上の設置スペースが増える。KVM内蔵モニターはこの機器を省略できる分、配線がモニター1台に集約され、デスク上の機器点数が減る。
+
+一方で、切り替えの挙動はモニター側のファームウェアに依存する。LGはThunderbolt入力と映像入力端子を分けて接続する構成、Dellはソフトウェア（Dell Display and Peripheral Manager）でのショートカット設定を併用する構成が公式に案内されており、切り替え操作の手順はメーカーごとに異なる。[Thunderbolt 5ケーブル比較](/gadget/tb5-cable-comparison/)で整理したケーブル側の条件と合わせて、PC側のポートがThunderbolt/USB4に対応しているかも事前に確認する必要がある。
+
+## 気になる点
+
+3機種とも10万円前後から30万円超という価格帯で、外付けKVMスイッチ（3,000円台〜）や単体モニター（3〜10万円台）と比べると投資額が大きい。KVM機能単体が目的なら、[KVMスイッチの選び方](/gadget/kvm-switch-guide/)で扱った外付け機器と、既存のモニターを組み合わせる方が安価になる場合が多い。
+
+また、LGの6Kモデルは接続するPC・GPU側が6144×3456の出力に対応している必要があり、Thunderbolt 4止まりの環境では解像度またはリフレッシュレートを落として使うことになる。購入前にPC側のポート規格と出力解像度の上限を確認しておきたい。
+
+## まとめ
+
+モニター内蔵KVMは、外付けスイッチを省いて配線をモニター1台に集約できる構成になる。6K解像度とThunderbolt 5の最新規格を優先するならLG 32U990A-S、ノートPCへの高出力給電と120Hzのバランスを取るならDell U2725QE、色校正作業でのKVM運用を重視するならBenQ PD3225U-JPが判断基準になる。
